@@ -19,7 +19,7 @@ class Car {
         this.model = model;
         this.trim = trim;
     }
-}
+} // Car
 
 /**
  * LeaseInfo Class
@@ -35,8 +35,9 @@ class LeaseInfo {
      * @param moneyFactor - the interest rate on the lease
      * @param leaseTerm - the number of months in the lease
      * @param yearlyMileage - mileage allowance per year for the lease
+     * @param taxRate - tax rate on lease payments
      */
-    constructor(car, msrp, netCapCost, downPayment, residualValue, moneyFactor, leaseTerm, yearlyMileage) { // TODO: add tax rate as a field
+    constructor(car, msrp, netCapCost, downPayment, residualValue, moneyFactor, leaseTerm, yearlyMileage, taxRate) {
         /**
          * Fields provided by user input
          */
@@ -48,6 +49,7 @@ class LeaseInfo {
         this.moneyFactor = moneyFactor;
         this.leaseTerm = leaseTerm;
         this.yearlyMileage = yearlyMileage;
+        this.taxRate = taxRate;
         /**
          * Fields provided by calculation functions
          */
@@ -154,5 +156,4 @@ class LeaseInfo {
     calculateTotalLeaseCost(totalMonthlyPayments, downPayment) {
         this.totalLeaseCost = totalMonthlyPayments + downPayment;
     }
-
-}
+} // LeaseInfo
