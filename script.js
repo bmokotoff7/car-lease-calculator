@@ -2,6 +2,7 @@
  * DOM Elements
  */
 // car-info
+const carInfoDiv = document.getElementById("car-info-div");
 const carYearEl = document.getElementById("car-year");
 const carMakeEl = document.getElementById("car-make");
 const carModelEl = document.getElementById("car-model");
@@ -16,7 +17,7 @@ const leaseTermEl = document.getElementById("lease-term");
 const annualMileageEl = document.getElementById("annual-mileage");
 const taxRateEl = document.getElementById("tax-rate");
 // calculate-buttons
-const calculatePaymentBtn = document.getElementById("calculate-payment-button");
+const calculatePaymentBtn = document.getElementById("calculate-payment-btn");
 // monthly-payment-info
 const monthlyPaymentEl = document.getElementById("monthly-payment");
 const showDetailedInfoBtn = document.getElementById("show-detailed-info-btn");
@@ -177,3 +178,12 @@ class LeaseInfo {
         this.totalLeaseCost = totalMonthlyPayments + downPayment;
     }
 } // LeaseInfo
+
+/**
+ * Handler for "Calculate Payment" button clicks
+ */
+calculatePaymentBtn.addEventListener("click", function() {
+    var myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
+    carInfoDiv.innerHTML +=
+    `<p>${myCar.year} ${myCar.make} ${myCar.model} ${myCar.trim}</p>`;
+});
