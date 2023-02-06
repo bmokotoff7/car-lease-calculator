@@ -1,3 +1,47 @@
 body {
     font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+input {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+button {
+    font-family: 'Poppins', sans-serif;
+}
+
+#car-info-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.car-info {
+    margin: 3px auto;
+}
+
+#price-info-div {
+    margin: 20px auto;
+}
+
+.price-info {
+    margin: 2px auto;
+}
+
+#calculate-button-div {
+    margin: 20px auto;
+}
+
+#monthly-payment-info-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.monthly-payment-info {
+    margin: 5px auto;
 }

@@ -15,34 +15,34 @@
             <h1>Car Lease Calculator</h1>
         </div>    
 
-        <div id="car-info">
-            <input id="car-year" placeholder="Year">
-            <input id="car-make" placeholder="Make">
-            <input id="car-model" placeholder="Model">
-            <input id="car-trim" placeholder="Trim">
+        <div id="car-info-div">
+            <input class="car-info" id="car-year" placeholder="Year">
+            <input class="car-info" id="car-make" placeholder="Make">
+            <input class="car-info" id="car-model" placeholder="Model">
+            <input class="car-info" id="car-trim" placeholder="Trim">
         </div>
 
-        <div id="price-info">
-            <input id="msrp" placeholder="MSRP">
-            <input id="net-cap-cost" placeholder="Net Capitalized Cost (Selling Price)">
-            <input id="down-payment" placeholder="Down Payment">
-            <input id="residual-value" placeholder="Residual Value">
-            <input id="money-factor" placeholder="Money Factor">
-            <input id="lease-term" placeholder="Lease Term">
-            <input id="annual-mileage" placeholder="Annual Mileage"> 
-            <input id="tax-rate" placeholder="Tax Rate">
+        <div id="price-info-div">
+            <input class="price-info" id="msrp" placeholder="MSRP">
+            <input class="price-info" id="net-cap-cost" placeholder="Net Capitalized Cost (Selling Price)">
+            <input class="price-info" id="down-payment" placeholder="Down Payment">
+            <input class="price-info" id="residual-value" placeholder="Residual Value">
+            <input class="price-info" id="money-factor" placeholder="Money Factor">
+            <input class="price-info" id="lease-term" placeholder="Lease Term">
+            <input class="price-info" id="annual-mileage" placeholder="Annual Mileage"> 
+            <input class="price-info" id="tax-rate" placeholder="Tax Rate">
         </div>
 
-        <div id="calculate-buttons">
+        <div id="calculate-button-div">
             <button id="calculate-payment-btn">Calculate Payment</button>
         </div>
 
-        <div id="monthly-payment-info">
-            <input id="monthly-payment" readonly> <!-- I did something like this in another project to hold outputs, was it this exact way?? -->
-            <button id="show-detailed-info-btn">Show Detailed Payment Info</button>
+        <div id="monthly-payment-info-div">
+            <input class="monthly-payment-info" id="monthly-payment" readonly> <!-- I did something like this in another project to hold outputs, was it this exact way?? -->
+            <button class="monthly-payment-info" id="show-detailed-info-btn">Show Detailed Payment Info</button>
         </div>
 
-        <div id="detailed-payment-info">
+        <div id="detailed-payment-info-div">
             <!-- when button clicked, show/hide additional fields with detailed breakdown of the monthly and total costs -->
         </div>
 
