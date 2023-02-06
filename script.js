@@ -1,6 +1,26 @@
 /**
  * DOM Elements
  */
+// car-info
+const carYearEl = document.getElementById("car-year");
+const carMakeEl = document.getElementById("car-make");
+const carModelEl = document.getElementById("car-model");
+const carTrimEl = document.getElementById("car-trim");
+// price-info
+const msrpEl = document.getElementById("msrp");
+const netCapCostEl = document.getElementById("net-cap-cost");
+const downPaymentEl = document.getElementById("down-payment");
+const residualValueEl = document.getElementById("residual-value");
+const moneyFactorEl = document.getElementById("money-factor");
+const leaseTermEl = document.getElementById("lease-term");
+const annualMileageEl = document.getElementById("annual-mileage");
+const taxRateEl = document.getElementById("tax-rate");
+// calculate-buttons
+const calculatePaymentBtn = document.getElementById("calculate-payment-button");
+// monthly-payment-info
+const monthlyPaymentEl = document.getElementById("monthly-payment");
+const showDetailedInfoBtn = document.getElementById("show-detailed-info-btn");
+// detailed-payment-info
 
 /**
  * Car Class
@@ -34,10 +54,10 @@ class LeaseInfo {
      * @param residualValue - the value of the car at the end of the lease term; represented as a percentage
      * @param moneyFactor - the interest rate on the lease
      * @param leaseTerm - the number of months in the lease
-     * @param yearlyMileage - mileage allowance per year for the lease
+     * @param annualMileage - mileage allowance per year for the lease
      * @param taxRate - tax rate on lease payments
      */
-    constructor(car, msrp, netCapCost, downPayment, residualValue, moneyFactor, leaseTerm, yearlyMileage, taxRate) {
+    constructor(car, msrp, netCapCost, downPayment, residualValue, moneyFactor, leaseTerm, annualMileage, taxRate) {
         /**
          * Fields provided by user input
          */
@@ -48,7 +68,7 @@ class LeaseInfo {
         this.residualValue = residualValue;
         this.moneyFactor = moneyFactor;
         this.leaseTerm = leaseTerm;
-        this.yearlyMileage = yearlyMileage;
+        this.annualMileage = annualMileage;
         this.taxRate = taxRate;
         /**
          * Fields provided by calculation functions
