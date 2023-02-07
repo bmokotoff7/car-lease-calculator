@@ -45,3 +45,7 @@ button {
 .monthly-payment-info {
     margin: 5px auto;
 }
+
+#show-hide-test {
+    display: none;   
+}

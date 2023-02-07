@@ -20,8 +20,9 @@ const taxRateEl = document.getElementById("tax-rate");
 const calculatePaymentBtn = document.getElementById("calculate-payment-btn");
 // monthly-payment-info
 const monthlyPaymentEl = document.getElementById("monthly-payment");
-const showDetailedInfoBtn = document.getElementById("show-detailed-info-btn");
+const detailedInfoBtn = document.getElementById("detailed-info-btn");
 // detailed-payment-info
+const showHideTestEl = document.getElementById("show-hide-test");
 
 /**
  * Car Class
@@ -181,6 +182,8 @@ class LeaseInfo {
 
 
 // may need to initialize new cars as array elements...not sure atm
+// car info does not update, but lease info does (maybe just an issue with adding it to the HTML?)
+    // try adding this into a premade HTML element in the "detailed payment info" div
 /**
  * Handler for "Calculate Payment" button clicks
  */
@@ -215,4 +218,15 @@ calculatePaymentBtn.addEventListener("click", function() {
 
     monthlyPaymentEl.value = myLeaseInfo.monthlyPayment.toFixed(2);
 
+});
+
+detailedInfoBtn.addEventListener("click", function() {
+    if (showHideTestEl.style.display === "none") {
+        showHideTestEl.style.display = "block";
+        detailedInfoBtn.innerText = "Hide Detailed Payment Info";
+    }
+    else {
+        showHideTestEl.style.display = "none";
+        detailedInfoBtn.innerText = "Show Detailed Payment Info";
+    }
 });
