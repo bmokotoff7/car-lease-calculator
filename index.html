@@ -16,25 +16,26 @@
         </div>    
 
         <div id="car-info-div">
-            <input class="car-info" id="car-year" placeholder="Year">
+            <input class="car-info" id="car-year" type="number" placeholder="Year">
             <input class="car-info" id="car-make" placeholder="Make">
             <input class="car-info" id="car-model" placeholder="Model">
             <input class="car-info" id="car-trim" placeholder="Trim">
         </div>
 
         <div id="price-info-div">
-            <input class="price-info" id="msrp" placeholder="MSRP">
-            <input class="price-info" id="net-cap-cost" placeholder="Net Capitalized Cost (Selling Price)">
-            <input class="price-info" id="down-payment" placeholder="Down Payment">
-            <input class="price-info" id="residual-value" placeholder="Residual Value">
-            <input class="price-info" id="money-factor" placeholder="Money Factor">
-            <input class="price-info" id="lease-term" placeholder="Lease Term">
-            <input class="price-info" id="annual-mileage" placeholder="Annual Mileage"> 
-            <input class="price-info" id="tax-rate" placeholder="Tax Rate">
+            <input class="price-info" id="msrp" type="number" placeholder="MSRP">
+            <input class="price-info" id="net-cap-cost" type="number" placeholder="Net Capitalized Cost (Selling Price)">
+            <input class="price-info" id="down-payment" type="number" placeholder="Down Payment">
+            <input class="price-info" id="residual-value" type="number" placeholder="Residual Value">
+            <input class="price-info" id="money-factor" type="number" placeholder="Money Factor">
+            <input class="price-info" id="lease-term" type="number" placeholder="Lease Term">
+            <input class="price-info" id="annual-mileage" type="number" placeholder="Annual Mileage"> 
+            <input class="price-info" id="tax-rate" type="number" placeholder="Tax Rate">
         </div>
 
         <div id="calculate-button-div">
             <button id="calculate-payment-btn">Calculate Payment</button>
+            <p id="calculate-error-message"></p>
         </div>
 
         <div id="monthly-payment-info-div">

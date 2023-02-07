@@ -18,11 +18,28 @@ const annualMileageEl = document.getElementById("annual-mileage");
 const taxRateEl = document.getElementById("tax-rate");
 // calculate-buttons
 const calculatePaymentBtn = document.getElementById("calculate-payment-btn");
+const calculateErrorMessage = document.getElementById("calculate-error-message");
 // monthly-payment-info
 const monthlyPaymentEl = document.getElementById("monthly-payment");
 const detailedInfoBtn = document.getElementById("detailed-info-btn");
 // detailed-payment-info
 const showHideTestEl = document.getElementById("show-hide-test");
+
+/**
+ * Contains all DOM user input elements
+ */
+const userInputs = [carYearEl,
+                    carMakeEl,
+                    carModelEl,
+                    carTrimEl,
+                    msrpEl,
+                    netCapCostEl,
+                    downPaymentEl,
+                    residualValueEl,
+                    moneyFactorEl,
+                    leaseTermEl,
+                    annualMileageEl,
+                    taxRateEl];
 
 /**
  * Car Class
@@ -188,8 +205,13 @@ class LeaseInfo {
  * Handler for "Calculate Payment" button clicks
  */
 calculatePaymentBtn.addEventListener("click", function() {
-    var myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
-    var myLeaseInfo = new LeaseInfo(myCar, msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
+    // clear previous error message
+    
+    // check that all fields are filled (new function)
+    
+    // keeping as "let" for now, but could these become "const"?
+    let myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
+    let myLeaseInfo = new LeaseInfo(myCar, msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
         moneyFactorEl.value, leaseTermEl.value, annualMileageEl.value, taxRateEl.value);
     
     carInfoDiv.innerHTML +=
@@ -220,6 +242,9 @@ calculatePaymentBtn.addEventListener("click", function() {
 
 });
 
+/**
+ * Handler for "Detailed Info" button clicks
+ */
 detailedInfoBtn.addEventListener("click", function() {
     if (showHideTestEl.style.display === "none") {
         showHideTestEl.style.display = "block";
@@ -230,3 +255,14 @@ detailedInfoBtn.addEventListener("click", function() {
         detailedInfoBtn.innerText = "Show Detailed Payment Info";
     }
 });
+
+// create function to check if all fields are filled correctly
+function checkInputFields(inputFieldsArray) {
+    for (let i = 0; i < inputFieldsArray.length; i++) {
+        if (inputFieldsArray[i].value === null) { // are they really null?
+            calculateErrorMessage.innerText = "Please fill all fields";
+            return false;
+        }
+    }
+    return true;
+}
