@@ -179,11 +179,40 @@ class LeaseInfo {
     }
 } // LeaseInfo
 
+
+// may need to initialize new cars as array elements...not sure atm
 /**
  * Handler for "Calculate Payment" button clicks
  */
 calculatePaymentBtn.addEventListener("click", function() {
     var myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
+    var myLeaseInfo = new LeaseInfo(myCar, msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
+        moneyFactorEl.value, leaseTermEl.value, annualMileageEl.value, taxRateEl.value);
+    
     carInfoDiv.innerHTML +=
     `<p>${myCar.year} ${myCar.make} ${myCar.model} ${myCar.trim}</p>`;
+
+    // calculate adj. cap cost
+    myLeaseInfo.calculateAdjCapCost(myLeaseInfo.netCapCost, myLeaseInfo.downPayment);
+    // calculate equiv. interest rate
+    myLeaseInfo.calculateEquivalentInterestRate(myLeaseInfo.moneyFactor);
+    // calculate buyout price
+    myLeaseInfo.calculateBuyoutPrice(myLeaseInfo.msrp, myLeaseInfo.residualValue);
+    // calculate total depreciation
+    myLeaseInfo.calculateTotalDepreciation(myLeaseInfo.adjCapCost, myLeaseInfo.buyoutPrice);
+    // calculate monthly depreciation
+    myLeaseInfo.calculateMonthlyDepreciation(myLeaseInfo.totalDepreciation, myLeaseInfo.leaseTerm);
+    // calculate monthly rent charge
+    myLeaseInfo.calculateMonthlyRentCharge(myLeaseInfo.adjCapCost, myLeaseInfo.buyoutPrice, myLeaseInfo.moneyFactor);
+    // calculate total rent charge
+    myLeaseInfo.calculateTotalRentCharge(myLeaseInfo.monthlyRentCharge, myLeaseInfo.leaseTerm);
+    // calculate monthly payment
+    myLeaseInfo.calculateMonthlyPayment(myLeaseInfo.monthlyDepreciation, myLeaseInfo.monthlyRentCharge);
+    // calculate total monthly payments
+    myLeaseInfo.calculateTotalMonthlyPayments(myLeaseInfo.monthlyPayment, myLeaseInfo.leaseTerm);
+    // calculate total lease cost
+    myLeaseInfo.calculateTotalLeaseCost(myLeaseInfo.totalMonthlyPayments, myLeaseInfo.downPayment);
+
+    monthlyPaymentEl.value = myLeaseInfo.monthlyPayment.toFixed(2);
+
 });
