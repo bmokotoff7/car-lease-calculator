@@ -200,46 +200,49 @@ class LeaseInfo {
 
 // may need to initialize new cars as array elements...not sure atm
 // car info does not update, but lease info does (maybe just an issue with adding it to the HTML?)
+// also, when "calculate payment" is clicked, car-info fields are cleared, but lease-info fields are not
     // try adding this into a premade HTML element in the "detailed payment info" div
 /**
  * Handler for "Calculate Payment" button clicks
  */
 calculatePaymentBtn.addEventListener("click", function() {
     // clear previous error message
+    calculateErrorMessage.innerText = "";
     
     // check that all fields are filled (new function)
-    
-    // keeping as "let" for now, but could these become "const"?
-    let myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
-    let myLeaseInfo = new LeaseInfo(myCar, msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
-        moneyFactorEl.value, leaseTermEl.value, annualMileageEl.value, taxRateEl.value);
-    
-    carInfoDiv.innerHTML +=
-    `<p>${myCar.year} ${myCar.make} ${myCar.model} ${myCar.trim}</p>`;
+    let myInputs = checkInputFields(userInputs);
+    if (myInputs === true) {
+        // keeping as "let" for now, but could these become "const"?
+        let myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
+        let myLeaseInfo = new LeaseInfo(myCar, msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
+            moneyFactorEl.value, leaseTermEl.value, annualMileageEl.value, taxRateEl.value);
+        
+        carInfoDiv.innerHTML +=
+        `<p>${myCar.year} ${myCar.make} ${myCar.model} ${myCar.trim}</p>`;
 
-    // calculate adj. cap cost
-    myLeaseInfo.calculateAdjCapCost(myLeaseInfo.netCapCost, myLeaseInfo.downPayment);
-    // calculate equiv. interest rate
-    myLeaseInfo.calculateEquivalentInterestRate(myLeaseInfo.moneyFactor);
-    // calculate buyout price
-    myLeaseInfo.calculateBuyoutPrice(myLeaseInfo.msrp, myLeaseInfo.residualValue);
-    // calculate total depreciation
-    myLeaseInfo.calculateTotalDepreciation(myLeaseInfo.adjCapCost, myLeaseInfo.buyoutPrice);
-    // calculate monthly depreciation
-    myLeaseInfo.calculateMonthlyDepreciation(myLeaseInfo.totalDepreciation, myLeaseInfo.leaseTerm);
-    // calculate monthly rent charge
-    myLeaseInfo.calculateMonthlyRentCharge(myLeaseInfo.adjCapCost, myLeaseInfo.buyoutPrice, myLeaseInfo.moneyFactor);
-    // calculate total rent charge
-    myLeaseInfo.calculateTotalRentCharge(myLeaseInfo.monthlyRentCharge, myLeaseInfo.leaseTerm);
-    // calculate monthly payment
-    myLeaseInfo.calculateMonthlyPayment(myLeaseInfo.monthlyDepreciation, myLeaseInfo.monthlyRentCharge);
-    // calculate total monthly payments
-    myLeaseInfo.calculateTotalMonthlyPayments(myLeaseInfo.monthlyPayment, myLeaseInfo.leaseTerm);
-    // calculate total lease cost
-    myLeaseInfo.calculateTotalLeaseCost(myLeaseInfo.totalMonthlyPayments, myLeaseInfo.downPayment);
+        // calculate adj. cap cost
+        myLeaseInfo.calculateAdjCapCost(myLeaseInfo.netCapCost, myLeaseInfo.downPayment);
+        // calculate equiv. interest rate
+        myLeaseInfo.calculateEquivalentInterestRate(myLeaseInfo.moneyFactor);
+        // calculate buyout price
+        myLeaseInfo.calculateBuyoutPrice(myLeaseInfo.msrp, myLeaseInfo.residualValue);
+        // calculate total depreciation
+        myLeaseInfo.calculateTotalDepreciation(myLeaseInfo.adjCapCost, myLeaseInfo.buyoutPrice);
+        // calculate monthly depreciation
+        myLeaseInfo.calculateMonthlyDepreciation(myLeaseInfo.totalDepreciation, myLeaseInfo.leaseTerm);
+        // calculate monthly rent charge
+        myLeaseInfo.calculateMonthlyRentCharge(myLeaseInfo.adjCapCost, myLeaseInfo.buyoutPrice, myLeaseInfo.moneyFactor);
+        // calculate total rent charge
+        myLeaseInfo.calculateTotalRentCharge(myLeaseInfo.monthlyRentCharge, myLeaseInfo.leaseTerm);
+        // calculate monthly payment
+        myLeaseInfo.calculateMonthlyPayment(myLeaseInfo.monthlyDepreciation, myLeaseInfo.monthlyRentCharge);
+        // calculate total monthly payments
+        myLeaseInfo.calculateTotalMonthlyPayments(myLeaseInfo.monthlyPayment, myLeaseInfo.leaseTerm);
+        // calculate total lease cost
+        myLeaseInfo.calculateTotalLeaseCost(myLeaseInfo.totalMonthlyPayments, myLeaseInfo.downPayment);
 
-    monthlyPaymentEl.value = myLeaseInfo.monthlyPayment.toFixed(2);
-
+        monthlyPaymentEl.value = myLeaseInfo.monthlyPayment.toFixed(2);
+    }
 });
 
 /**
@@ -256,10 +259,14 @@ detailedInfoBtn.addEventListener("click", function() {
     }
 });
 
-// create function to check if all fields are filled correctly
+/**
+ * Checks if all fields are filled correctly
+ * @param inputFieldsArray - array containing all user input fields
+ * @returns true if all fields are filled correctly, false otherwise
+ */
 function checkInputFields(inputFieldsArray) {
     for (let i = 0; i < inputFieldsArray.length; i++) {
-        if (inputFieldsArray[i].value === null) { // are they really null?
+        if (inputFieldsArray[i].value === "") {
             calculateErrorMessage.innerText = "Please fill all fields";
             return false;
         }

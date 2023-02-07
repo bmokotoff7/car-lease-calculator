@@ -46,6 +46,11 @@ button {
     margin: 5px auto;
 }
 
+#calculate-error-message {
+    font-weight: 600;
+    color: red;
+}
+
 #show-hide-test {
     display: none;   
 }
