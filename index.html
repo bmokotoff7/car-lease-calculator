@@ -1,4 +1,7 @@
 <!-- add link to another page to view previously calculated payments (saved-leases.html)-->
+<!-- Instead of the additional page, I want to make a nav bar with selections for "Calculator"
+     and "Saved Leases". Each will be tied to a high level div. When clicked, the other div is
+     hidden and the selected "tab/section" is shown-->
 
 <!DOCTYPE html>
 
@@ -11,41 +14,92 @@
     </head>
     
     <body>
-        <div id="heading">
-            <h1>Car Lease Calculator</h1>
-        </div>    
+        <!-- HEADER -->
+        <div id="header-wrapper">
+            <div id="heading">
+                <h1>Car Lease Calculator</h1>
+            </div>    
 
-        <div id="car-info-div">
-            <input class="car-info" id="car-year" type="number" placeholder="Year">
-            <input class="car-info" id="car-make" placeholder="Make">
-            <input class="car-info" id="car-model" placeholder="Model">
-            <input class="car-info" id="car-trim" placeholder="Trim">
+            <div id="nav-bar-div">
+                <h3>Calculator</h3>
+                <h3>Saved Leases</h3>
+            </div>
         </div>
+        <!-- CALCULATOR TAB -->
+        <div id="calculator-wrapper">
+            <div id="car-info-div">
+                <input class="car-info" id="car-year" type="number" placeholder="Year">
+                <input class="car-info" id="car-make" placeholder="Make">
+                <input class="car-info" id="car-model" placeholder="Model">
+                <input class="car-info" id="car-trim" placeholder="Trim">
+            </div>
 
-        <div id="price-info-div">
-            <input class="price-info" id="msrp" type="number" placeholder="MSRP">
-            <input class="price-info" id="net-cap-cost" type="number" placeholder="Net Capitalized Cost (Selling Price)">
-            <input class="price-info" id="down-payment" type="number" placeholder="Down Payment">
-            <input class="price-info" id="residual-value" type="number" placeholder="Residual Value">
-            <input class="price-info" id="money-factor" type="number" placeholder="Money Factor">
-            <input class="price-info" id="lease-term" type="number" placeholder="Lease Term">
-            <input class="price-info" id="annual-mileage" type="number" placeholder="Annual Mileage"> 
-            <input class="price-info" id="tax-rate" type="number" placeholder="Tax Rate">
+            <div id="price-info-div">
+                <input class="price-info" id="msrp" type="number" placeholder="MSRP">
+                <input class="price-info" id="net-cap-cost" type="number" placeholder="Net Capitalized Cost (Selling Price)">
+                <input class="price-info" id="down-payment" type="number" placeholder="Down Payment">
+                <input class="price-info" id="residual-value" type="number" placeholder="Residual Value">
+                <input class="price-info" id="money-factor" type="number" placeholder="Money Factor">
+                <input class="price-info" id="lease-term" type="number" placeholder="Lease Term">
+                <input class="price-info" id="annual-mileage" type="number" placeholder="Annual Mileage"> 
+                <input class="price-info" id="tax-rate" type="number" placeholder="Tax Rate">
+            </div>
+
+            <div id="calculate-button-div">
+                <button id="calculate-payment-btn">Calculate Payment</button>
+                <p id="calculate-error-message"></p>
+                <button id="clear-input-fields-btn">Clear Calculator</button>
+            </div>
+
+            <div id="monthly-payment-info-div">
+                <input class="monthly-payment-info" id="monthly-payment" readonly> <!-- I did something like this in another project to hold outputs, was it this exact way?? -->
+                <button class="monthly-payment-info" id="detailed-info-btn">Show Detailed Payment Info</button>
+            </div>
+
+            <div id="detailed-payment-info-div">
+                <!-- when button clicked, show/hide additional fields with detailed breakdown of the monthly and total costs -->
+                <table id="detailed-info-table">
+                    <tr>
+                        <td>Monthly Depreciation:</td>
+                        <td id="monthly-depreciation-table"></td>
+                    </tr>
+                    <tr>
+                        <td>Monthly Rent Charge:</td>
+                        <td id="monthly-rent-charge-table"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Depreciation:</td>
+                        <td id="total-depreciation-table"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Rent Charge:</td>
+                        <td id="total-rent-charge-table"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Cost of Monthly Payments:</td>
+                        <td id="total-monthly-payments-table"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Lease Cost (incl. down payment):</td>
+                        <td id="total-lease-cost-table"></td>
+                    </tr>
+                    <tr>
+                        <td>Buyout Price:</td>
+                        <td id="buyout-price-table"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="save-div">
+                <button id="save-lease-btn">Save Lease</button>
+            </div>
+
         </div>
+        <!-- SAVED LEASES TAB-->
+        <div id="saved-leases-wrapper">
+            <ul id="saved-leases-list">
 
-        <div id="calculate-button-div">
-            <button id="calculate-payment-btn">Calculate Payment</button>
-            <p id="calculate-error-message"></p>
-        </div>
-
-        <div id="monthly-payment-info-div">
-            <input class="monthly-payment-info" id="monthly-payment" readonly> <!-- I did something like this in another project to hold outputs, was it this exact way?? -->
-            <button class="monthly-payment-info" id="detailed-info-btn">Show Detailed Payment Info</button>
-        </div>
-
-        <div id="detailed-payment-info-div">
-            <!-- when button clicked, show/hide additional fields with detailed breakdown of the monthly and total costs -->
-            <p id="show-hide-test">Showing hidden info</p>
+            </ul>
         </div>
 
     </body>

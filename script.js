@@ -1,13 +1,13 @@
 /**
- * DOM Elements
+ * DOM Elements from index.html
  */
-// car-info
+/* car-info */
 const carInfoDiv = document.getElementById("car-info-div");
 const carYearEl = document.getElementById("car-year");
 const carMakeEl = document.getElementById("car-make");
 const carModelEl = document.getElementById("car-model");
 const carTrimEl = document.getElementById("car-trim");
-// price-info
+/* price-info */
 const msrpEl = document.getElementById("msrp");
 const netCapCostEl = document.getElementById("net-cap-cost");
 const downPaymentEl = document.getElementById("down-payment");
@@ -16,18 +16,27 @@ const moneyFactorEl = document.getElementById("money-factor");
 const leaseTermEl = document.getElementById("lease-term");
 const annualMileageEl = document.getElementById("annual-mileage");
 const taxRateEl = document.getElementById("tax-rate");
-// calculate-buttons
+/* calculate-buttons */
 const calculatePaymentBtn = document.getElementById("calculate-payment-btn");
 const calculateErrorMessage = document.getElementById("calculate-error-message");
-// monthly-payment-info
+const clearInputFieldsBtn = document.getElementById("clear-input-fields-btn");
+/* monthly-payment-info */
 const monthlyPaymentEl = document.getElementById("monthly-payment");
 const detailedInfoBtn = document.getElementById("detailed-info-btn");
-// detailed-payment-info
+/* detailed-payment-info */
 const showHideTestEl = document.getElementById("show-hide-test");
+const detailedInfoTable = document.getElementById("detailed-info-table");
+const monthlyDepreciationTableEl = document.getElementById("monthly-depreciation-table");
+const monthlyRentChargeTableEl = document.getElementById("monthly-rent-charge-table");
+const totalDepreciationTableEl = document.getElementById("total-depreciation-table");
+const totalRentChargeTableEl = document.getElementById("total-rent-charge-table");
+const totalMonthlyPaymentsTableEl = document.getElementById("total-monthly-payments-table");
+const totalLeaseCostTableEl = document.getElementById("total-lease-cost-table");
+const buyoutPriceTableEl = document.getElementById("buyout-price-table");
+/* save-div */
+const saveLeaseBtn = document.getElementById("save-lease-btn");
 
-/**
- * Contains all DOM user input elements
- */
+/* Array containing all DOM user input elements */
 const userInputs = [carYearEl,
                     carMakeEl,
                     carModelEl,
@@ -40,6 +49,15 @@ const userInputs = [carYearEl,
                     leaseTermEl,
                     annualMileageEl,
                     taxRateEl];
+
+/* Array used to hold saved leases (holds LeaseInfo objects)*/
+let mySavedLeases = [];
+/* Holds saved leases from LocalStorage */
+const savedLeasesFromLocalStorage = JSON.parse(localStorage.getItem("mySavedLeases"));
+/* DOM element that shows the list of saved leases */
+const savedLeasesListEl = document.getElementById("saved-leases-list");
+/* Holds the current LeaseInfo object and is passed in when "Save Lease" is clicked */
+let currentLease = null;
 
 /**
  * Car Class
@@ -58,6 +76,11 @@ class Car {
         this.model = model;
         this.trim = trim;
     }
+
+    toString() {
+        return `${this.year} ${this.make} ${this.model} ${this.trim}`;
+    }
+
 } // Car
 
 /**
@@ -193,15 +216,38 @@ class LeaseInfo {
      * @param downPayment - the total down payment made on the car
      */
     calculateTotalLeaseCost(totalMonthlyPayments, downPayment) {
-        this.totalLeaseCost = totalMonthlyPayments + downPayment;
+        this.totalLeaseCost = Number(totalMonthlyPayments) + Number(downPayment);
     }
 } // LeaseInfo
 
+/**-------------------------------------------------------------------------------------------------------------------------------------*/
 
-// may need to initialize new cars as array elements...not sure atm
-// car info does not update, but lease info does (maybe just an issue with adding it to the HTML?)
-// also, when "calculate payment" is clicked, car-info fields are cleared, but lease-info fields are not
-    // try adding this into a premade HTML element in the "detailed payment info" div
+//if(savedLeasesFromLocalStorage) {
+//    mySavedLeases = savedLeasesFromLocalStorage;
+//    render(mySavedLeases);
+//}
+
+function render(savedLeasesArray) {
+    let listItems = "";
+    for (let i = 0; i < savedLeasesArray.length; i++) {
+        listItems +=
+        `<li>
+            <p>${savedLeasesArray[i].car}</p>
+        </li>`
+    }
+    savedLeasesListEl.innerHTML = listItems;
+}
+
+/**
+ * Handler for "Save Lease" button clicks
+ */
+saveLeaseBtn.addEventListener("click", function() {
+    mySavedLeases.push(currentLease);
+    currentLease = "";
+    //localStorage.setItem("mySavedLeases", JSON.stringify(mySavedLeases));
+    render(mySavedLeases);
+})
+
 /**
  * Handler for "Calculate Payment" button clicks
  */
@@ -212,13 +258,11 @@ calculatePaymentBtn.addEventListener("click", function() {
     // check that all fields are filled (new function)
     let myInputs = checkInputFields(userInputs);
     if (myInputs === true) {
-        // keeping as "let" for now, but could these become "const"?
+
+        // create Car and LeaseInfo objects
         let myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
-        let myLeaseInfo = new LeaseInfo(myCar, msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
+        let myLeaseInfo = new LeaseInfo(myCar.toString(), msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
             moneyFactorEl.value, leaseTermEl.value, annualMileageEl.value, taxRateEl.value);
-        
-        carInfoDiv.innerHTML +=
-        `<p>${myCar.year} ${myCar.make} ${myCar.model} ${myCar.trim}</p>`;
 
         // calculate adj. cap cost
         myLeaseInfo.calculateAdjCapCost(myLeaseInfo.netCapCost, myLeaseInfo.downPayment);
@@ -242,6 +286,20 @@ calculatePaymentBtn.addEventListener("click", function() {
         myLeaseInfo.calculateTotalLeaseCost(myLeaseInfo.totalMonthlyPayments, myLeaseInfo.downPayment);
 
         monthlyPaymentEl.value = myLeaseInfo.monthlyPayment.toFixed(2);
+        monthlyPaymentEl.style.display = "block";
+        detailedInfoBtn.style.display = "block";
+
+        monthlyDepreciationTableEl.innerText = `$${myLeaseInfo.monthlyDepreciation.toFixed(2)}`;
+        monthlyRentChargeTableEl.innerText = `$${myLeaseInfo.monthlyRentCharge.toFixed(2)}`;
+        totalDepreciationTableEl.innerText = `$${myLeaseInfo.totalDepreciation.toFixed(2)}`;
+        totalRentChargeTableEl.innerText = `$${myLeaseInfo.totalRentCharge.toFixed(2)}`;
+        totalMonthlyPaymentsTableEl.innerText = `$${myLeaseInfo.totalMonthlyPayments.toFixed(2)}`;
+        totalLeaseCostTableEl.innerText = `$${myLeaseInfo.totalLeaseCost.toFixed(2)}`;
+        buyoutPriceTableEl.innerText = `$${myLeaseInfo.buyoutPrice.toFixed(2)}`;
+
+        currentLease = myLeaseInfo;
+        saveLeaseBtn.style.display = "block";
+
     }
 });
 
@@ -249,12 +307,12 @@ calculatePaymentBtn.addEventListener("click", function() {
  * Handler for "Detailed Info" button clicks
  */
 detailedInfoBtn.addEventListener("click", function() {
-    if (showHideTestEl.style.display === "none") {
-        showHideTestEl.style.display = "block";
+    if (detailedInfoTable.style.display === "none") {
+        detailedInfoTable.style.display = "block";
         detailedInfoBtn.innerText = "Hide Detailed Payment Info";
     }
     else {
-        showHideTestEl.style.display = "none";
+        detailedInfoTable.style.display = "none";
         detailedInfoBtn.innerText = "Show Detailed Payment Info";
     }
 });
@@ -265,11 +323,38 @@ detailedInfoBtn.addEventListener("click", function() {
  * @returns true if all fields are filled correctly, false otherwise
  */
 function checkInputFields(inputFieldsArray) {
+    let totalEmptyFields = 0;
     for (let i = 0; i < inputFieldsArray.length; i++) {
         if (inputFieldsArray[i].value === "") {
+            inputFieldsArray[i].style.borderColor = "red";
             calculateErrorMessage.innerText = "Please fill all fields";
-            return false;
+            totalEmptyFields++;
+        }
+        else {
+            inputFieldsArray[i].style.borderColor = "black";
         }
     }
-    return true;
+    if (totalEmptyFields > 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
 }
+
+/**
+ * Clears all user input fields
+ * @param inputFieldsArray - array containing all user input fields
+ */
+function clearInputFields(inputFieldsArray) {
+    for (let i = 0; i < inputFieldsArray.length; i++) {
+        inputFieldsArray[i].value = "";
+    }
+}
+
+/**
+ * Handler for "Clear Calculator" button clicks
+ */
+clearInputFieldsBtn.addEventListener("click", function() {
+    clearInputFields(userInputs);
+})

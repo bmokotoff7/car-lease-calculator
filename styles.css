@@ -12,6 +12,11 @@ button {
     font-family: 'Poppins', sans-serif;
 }
 
+#nav-bar-div {
+    display: flex;
+    justify-content: space-around;
+}
+
 #car-info-div {
     display: flex;
     flex-direction: column;
@@ -21,6 +26,7 @@ button {
 
 .car-info {
     margin: 3px auto;
+    width: 180px;
 }
 
 #price-info-div {
@@ -46,17 +52,38 @@ button {
     margin: 5px auto;
 }
 
+#monthly-payment {
+    display: none;
+}
+
 #calculate-error-message {
     font-weight: 600;
     color: red;
 }
 
-#show-hide-test {
-    display: none;   
+#detailed-info-btn {
+    display: none;
+}
+
+#detailed-info-table {
+    display: none;
+    text-align: right;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+#calculator-wrapper {
+    display: block;
+}
+
+#saved-leases-wrapper {
+    display: block;
+}
+
+#save-lease-btn {
+    display: none;
 }
