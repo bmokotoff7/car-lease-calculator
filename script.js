@@ -58,6 +58,8 @@ const savedLeasesFromLocalStorage = JSON.parse(localStorage.getItem("mySavedLeas
 const savedLeasesListEl = document.getElementById("saved-leases-list");
 /* Holds the current LeaseInfo object and is passed in when "Save Lease" is clicked */
 let currentLease = null;
+// add a counter for saved leases and append the saved number to the end of the car ID string
+// ID for table/carList = `${car.toIdString}-savedNum`
 
 /**
  * Car Class
@@ -77,10 +79,19 @@ class Car {
         this.trim = trim;
     }
 
+    /**
+     * Returns string of format: Year Make Model Trim
+     */
     toString() {
         return `${this.year} ${this.make} ${this.model} ${this.trim}`;
     }
 
+    /**
+     * Returns string of format: YearMakeModelTrim
+     */
+    toIdString() {
+        return `${this.year}${this.make}${this.model}${this.trim}`;
+    }
 } // Car
 
 /**
@@ -227,22 +238,67 @@ class LeaseInfo {
 //    render(mySavedLeases);
 //}
 
+/**
+ * Renders the current list of saved leases
+ * @param savedLeasesArray - array containing all saved leases from localStorage
+ */
 function render(savedLeasesArray) {
-    let listItems = "";
+    let carList = "";
+    let leaseInfoTable = "";
     for (let i = 0; i < savedLeasesArray.length; i++) {
-        listItems +=
+        carList +=
         `<li>
-            <p>${savedLeasesArray[i].car}</p>
+            <p id="saved-lease-car-${i}">${savedLeasesArray[i].car.toString()}</p>
+            <table id="saved-lease-table-${i}">
+                <tr>
+                    <td>Monthly Depreciation:</td>
+                    <td id="monthly-depreciation-table">${savedLeasesArray[i].monthlyDepreciation.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Monthly Rent Charge:</td>
+                    <td id="monthly-rent-charge-table">${savedLeasesArray[i].monthlyRentCharge.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Total Depreciation:</td>
+                    <td id="total-depreciation-table">${savedLeasesArray[i].totalDepreciation.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Total Rent Charge:</td>
+                    <td id="total-rent-charge-table">${savedLeasesArray[i].totalRentCharge.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Total Cost of Monthly Payments:</td>
+                    <td id="total-monthly-payments-table">${savedLeasesArray[i].totalMonthlyPayments.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Total Lease Cost (incl. down payment):</td>
+                    <td id="total-lease-cost-table">${savedLeasesArray[i].totalLeaseCost.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Buyout Price:</td>
+                    <td id="buyout-price-table">${savedLeasesArray[i].buyoutPrice.toFixed(2)}</td>
+                </tr>
+            </table>
         </li>`
+        //leaseInfoTable += `add html for table`
+        // use toIdString() to produce proper ID for each table (do they need IDs though? would only allow one of each car)
     }
-    savedLeasesListEl.innerHTML = listItems;
+    savedLeasesListEl.innerHTML = carList;
+    for (let i = 0; i < savedLeasesArray.length; i++) {
+        let savedLeaseCarEl = document.getElementById(`saved-lease-car-${i}`);
+        let savedLeaseTableEl = document.getElementById(`saved-lease-table-${i}`);
+        savedLeaseTableEl.style.display = "none";
+        savedLeaseCarEl.addEventListener("click", function() {
+            savedLeaseTableEl.style.display = "block";
+        })
+    }
 }
 
 /**
  * Handler for "Save Lease" button clicks
  */
 saveLeaseBtn.addEventListener("click", function() {
-    mySavedLeases.push(currentLease);
+    mySavedLeases.push(currentLease); // change to add new cars to front of array (top of list)?
     currentLease = "";
     //localStorage.setItem("mySavedLeases", JSON.stringify(mySavedLeases));
     render(mySavedLeases);
@@ -261,7 +317,7 @@ calculatePaymentBtn.addEventListener("click", function() {
 
         // create Car and LeaseInfo objects
         let myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
-        let myLeaseInfo = new LeaseInfo(myCar.toString(), msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
+        let myLeaseInfo = new LeaseInfo(myCar, msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
             moneyFactorEl.value, leaseTermEl.value, annualMileageEl.value, taxRateEl.value);
 
         // calculate adj. cap cost
@@ -357,4 +413,4 @@ function clearInputFields(inputFieldsArray) {
  */
 clearInputFieldsBtn.addEventListener("click", function() {
     clearInputFields(userInputs);
-})
+});
