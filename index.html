@@ -21,13 +21,14 @@
             </div>    
 
             <div id="nav-bar-div">
-                <h3>Calculator</h3>
-                <h3>Saved Leases</h3>
+                <button id="nav-bar-calculator-btn">Calculator</button>
+                <button id="nav-bar-saved-leases-btn">Saved Leases</button>
             </div>
         </div>
         <!-- CALCULATOR TAB -->
         <div id="calculator-wrapper">
             <div id="car-info-div">
+                <h3>Car Information</h3>
                 <input class="car-info" id="car-year" type="number" placeholder="Year">
                 <input class="car-info" id="car-make" placeholder="Make">
                 <input class="car-info" id="car-model" placeholder="Model">
@@ -35,6 +36,7 @@
             </div>
 
             <div id="price-info-div">
+                <h3>Lease Information</h3>
                 <input class="price-info" id="msrp" type="number" placeholder="MSRP">
                 <input class="price-info" id="net-cap-cost" type="number" placeholder="Net Capitalized Cost (Selling Price)">
                 <input class="price-info" id="down-payment" type="number" placeholder="Down Payment">
@@ -84,7 +86,7 @@
                         <td id="total-lease-cost-table"></td>
                     </tr>
                     <tr>
-                        <td>Buyout Price:</td>
+                        <td>End of Lease Buyout Price:</td>
                         <td id="buyout-price-table"></td>
                     </tr>
                 </table>

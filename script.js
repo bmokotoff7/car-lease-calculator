@@ -1,6 +1,12 @@
 /**
  * DOM Elements from index.html
  */
+/* nav-bar */
+const navBarCalculatorBtn = document.getElementById("nav-bar-calculator-btn");
+const navBarSavedLeasesBtn = document.getElementById("nav-bar-saved-leases-btn");
+/* site tabs */
+const calculatorWrapperEl = document.getElementById("calculator-wrapper");
+const savedLeasesWrapperEl = document.getElementById("saved-leases-wrapper");
 /* car-info */
 const carInfoDiv = document.getElementById("car-info-div");
 const carYearEl = document.getElementById("car-year");
@@ -252,31 +258,31 @@ function render(savedLeasesArray) {
             <table id="saved-lease-table-${i}">
                 <tr>
                     <td>Monthly Depreciation:</td>
-                    <td id="monthly-depreciation-table">${savedLeasesArray[i].monthlyDepreciation.toFixed(2)}</td>
+                    <td id="monthly-depreciation-table">$${savedLeasesArray[i].monthlyDepreciation.toFixed(2)}</td>
                 </tr>
                 <tr>
                     <td>Monthly Rent Charge:</td>
-                    <td id="monthly-rent-charge-table">${savedLeasesArray[i].monthlyRentCharge.toFixed(2)}</td>
+                    <td id="monthly-rent-charge-table">$${savedLeasesArray[i].monthlyRentCharge.toFixed(2)}</td>
                 </tr>
                 <tr>
                     <td>Total Depreciation:</td>
-                    <td id="total-depreciation-table">${savedLeasesArray[i].totalDepreciation.toFixed(2)}</td>
+                    <td id="total-depreciation-table">$${savedLeasesArray[i].totalDepreciation.toFixed(2)}</td>
                 </tr>
                 <tr>
                     <td>Total Rent Charge:</td>
-                    <td id="total-rent-charge-table">${savedLeasesArray[i].totalRentCharge.toFixed(2)}</td>
+                    <td id="total-rent-charge-table">$${savedLeasesArray[i].totalRentCharge.toFixed(2)}</td>
                 </tr>
                 <tr>
                     <td>Total Cost of Monthly Payments:</td>
-                    <td id="total-monthly-payments-table">${savedLeasesArray[i].totalMonthlyPayments.toFixed(2)}</td>
+                    <td id="total-monthly-payments-table">$${savedLeasesArray[i].totalMonthlyPayments.toFixed(2)}</td>
                 </tr>
                 <tr>
                     <td>Total Lease Cost (incl. down payment):</td>
-                    <td id="total-lease-cost-table">${savedLeasesArray[i].totalLeaseCost.toFixed(2)}</td>
+                    <td id="total-lease-cost-table">$${savedLeasesArray[i].totalLeaseCost.toFixed(2)}</td>
                 </tr>
                 <tr>
-                    <td>Buyout Price:</td>
-                    <td id="buyout-price-table">${savedLeasesArray[i].buyoutPrice.toFixed(2)}</td>
+                    <td>End of Lease Buyout Price:</td>
+                    <td id="buyout-price-table">$${savedLeasesArray[i].buyoutPrice.toFixed(2)}</td>
                 </tr>
             </table>
         </li>`
@@ -413,4 +419,24 @@ function clearInputFields(inputFieldsArray) {
  */
 clearInputFieldsBtn.addEventListener("click", function() {
     clearInputFields(userInputs);
+});
+
+/**
+ * Handler for Nav Bar "Calculator" button clicks
+ */
+navBarCalculatorBtn.addEventListener("click", function() {
+    calculatorWrapperEl.style.display = "block";
+    savedLeasesWrapperEl.style.display = "none";
+});
+
+/**
+ * Handler for Nav Bar "Saved Leases" button clicks
+ */
+navBarSavedLeasesBtn.addEventListener("click", function() {
+    calculatorWrapperEl.style.display = "none";
+    savedLeasesWrapperEl.style.display = "block";
+    for (let i = 0; i < mySavedLeases.length; i++) {
+        let savedLeaseTableEl = document.getElementById(`saved-lease-table-${i}`);
+        savedLeaseTableEl.style.display = "none";
+    }
 });

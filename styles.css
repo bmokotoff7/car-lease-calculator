@@ -81,7 +81,7 @@ input::-webkit-inner-spin-button {
 }
 
 #saved-leases-wrapper {
-    display: block;
+    display: none;
 }
 
 #save-lease-btn {
