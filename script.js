@@ -254,7 +254,7 @@ function render(savedLeasesArray) {
     for (let i = 0; i < savedLeasesArray.length; i++) {
         carList +=
         `<li>
-            <p id="saved-lease-car-${i}">${savedLeasesArray[i].car.toString()}</p>
+            <h3 id="saved-lease-car-${i}">${savedLeasesArray[i].car.toString()}</h3>
             <table id="saved-lease-table-${i}">
                 <tr>
                     <td>Monthly Depreciation:</td>
@@ -308,6 +308,10 @@ saveLeaseBtn.addEventListener("click", function() {
     currentLease = "";
     //localStorage.setItem("mySavedLeases", JSON.stringify(mySavedLeases));
     render(mySavedLeases);
+    saveLeaseBtn.style.background = "none";
+    saveLeaseBtn.textContent = "Lease saved";
+    saveLeaseBtn.style.color = "#07d885";
+    saveLeaseBtn.style.fontWeight = "bold";
 })
 
 /**
@@ -388,8 +392,9 @@ function checkInputFields(inputFieldsArray) {
     let totalEmptyFields = 0;
     for (let i = 0; i < inputFieldsArray.length; i++) {
         if (inputFieldsArray[i].value === "") {
-            inputFieldsArray[i].style.borderColor = "red";
-            calculateErrorMessage.innerText = "Please fill all fields";
+            inputFieldsArray[i].style.border = "1.8px solid"
+            inputFieldsArray[i].style.borderColor = "#ee6c4d";
+            calculateErrorMessage.innerText = "Please fill required fields";
             totalEmptyFields++;
         }
         else {
@@ -427,6 +432,10 @@ clearInputFieldsBtn.addEventListener("click", function() {
 navBarCalculatorBtn.addEventListener("click", function() {
     calculatorWrapperEl.style.display = "block";
     savedLeasesWrapperEl.style.display = "none";
+    navBarCalculatorBtn.style.fontWeight = "bold";
+    navBarCalculatorBtn.style.textDecoration = "underline";
+    navBarSavedLeasesBtn.style.fontWeight = "normal";
+    navBarSavedLeasesBtn.style.textDecoration = "none";
 });
 
 /**
@@ -435,6 +444,10 @@ navBarCalculatorBtn.addEventListener("click", function() {
 navBarSavedLeasesBtn.addEventListener("click", function() {
     calculatorWrapperEl.style.display = "none";
     savedLeasesWrapperEl.style.display = "block";
+    navBarCalculatorBtn.style.fontWeight = "normal";
+    navBarCalculatorBtn.style.textDecoration = "none";
+    navBarSavedLeasesBtn.style.fontWeight = "bold";
+    navBarSavedLeasesBtn.style.textDecoration = "underline"
     for (let i = 0; i < mySavedLeases.length; i++) {
         let savedLeaseTableEl = document.getElementById(`saved-lease-table-${i}`);
         savedLeaseTableEl.style.display = "none";
