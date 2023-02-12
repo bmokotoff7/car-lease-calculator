@@ -402,8 +402,9 @@ function checkInputFields(inputFieldsArray) {
     let totalEmptyFields = 0;
     for (let i = 0; i < inputFieldsArray.length; i++) {
         if (inputFieldsArray[i].value === "") {
-            inputFieldsArray[i].style.border = "1.8px solid"
-            inputFieldsArray[i].style.borderColor = "#ee6c4d";
+            inputFieldsArray[i].style.border = "2px solid"
+            inputFieldsArray[i].style.borderColor = "#ee512a";
+            calculateErrorMessage.style.display = "block";
             calculateErrorMessage.innerText = "Please fill required fields";
             totalEmptyFields++;
         }

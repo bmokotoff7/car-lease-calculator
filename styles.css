@@ -187,9 +187,17 @@ button {
 }
 
 #calculate-error-message {
+    display: none;
+    background: linear-gradient(
+        to right bottom, 
+        rgba(41, 50, 65, 1), 
+        rgba(41, 50, 65, 0.8)
+    );
+    padding: 5px 10px;
+    border-radius: 4px;
     font-weight: 600;
-    color: #ee6c4d;
-    color: black
+    font-size: small;
+    color: #ee512a;
 }
 
 #detailed-info-btn {
