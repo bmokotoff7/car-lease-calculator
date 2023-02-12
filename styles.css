@@ -21,6 +21,8 @@ body {
 
 main {
     min-height: 80vh;
+    max-height: 80vh;
+    overflow: scroll;
     width: 80%;
     background: linear-gradient(
         to right bottom, 
@@ -64,10 +66,10 @@ input {
 button {
     font-family: 'Poppins', sans-serif;
     color: #293241;
-    background-color: #98c1d9;
     border: 0px solid;
     border-radius: 4px;
     padding: 5px 10px;
+    cursor: pointer;
 }
 
 #calculate-payment-btn, 
@@ -77,7 +79,16 @@ button {
 
 #calculate-payment-btn, 
 #clear-input-fields-btn, 
-#detailed-info-btn,
+#detailed-info-btn {
+    background: linear-gradient(
+        to right bottom, 
+        rgba(255, 255, 255, 0.5), 
+        rgba(255, 255, 255, 0.3)
+    );
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
+    transition-duration: 0.5s;
+}
+
 #save-lease-btn {
     background: linear-gradient(
         to right bottom, 
@@ -85,17 +96,14 @@ button {
         rgba(255, 255, 255, 0.3)
     );
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
+    transition-duration: 0.5s;
 }
 
 #calculate-payment-btn:hover, 
 #clear-input-fields-btn:hover, 
 #detailed-info-btn:hover,
 #save-lease-btn:hover {
-    background: linear-gradient(
-        to right bottom, 
-        rgba(255, 255, 255, 0.9), 
-        rgba(255, 255, 255, 0.6)
-    );
+   transform: scale(1.1);
 }
 
 #nav-bar-div {
@@ -109,6 +117,7 @@ button {
     border-radius: 0.5rem;
     font-weight: bold;
     font-size: medium;
+    text-decoration: underline;
 }
 
 #nav-bar-calculator-btn:hover {

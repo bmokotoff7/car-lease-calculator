@@ -255,7 +255,7 @@ function render(savedLeasesArray) {
         carList +=
         `<li>
             <h3 id="saved-lease-car-${i}">${savedLeasesArray[i].car.toString()}</h3>
-            <table id="saved-lease-table-${i}">
+            <table class="saved-lease-table" "id="saved-lease-table-${i}">
                 <tr>
                     <td>Monthly Depreciation:</td>
                     <td id="monthly-depreciation-table">$${savedLeasesArray[i].monthlyDepreciation.toFixed(2)}</td>
@@ -304,22 +304,32 @@ function render(savedLeasesArray) {
  * Handler for "Save Lease" button clicks
  */
 saveLeaseBtn.addEventListener("click", function() {
-    mySavedLeases.push(currentLease); // change to add new cars to front of array (top of list)?
+
+    saveLeaseBtn.style.background = "#07d885";
+    saveLeaseBtn.textContent = "Lease saved";
+    saveLeaseBtn.style.color = "white";
+    saveLeaseBtn.style.fontWeight = "bold";
+
+    mySavedLeases.unshift(currentLease); // change to add new cars to front of array (top of list)?
     currentLease = "";
     //localStorage.setItem("mySavedLeases", JSON.stringify(mySavedLeases));
     render(mySavedLeases);
-    saveLeaseBtn.style.background = "none";
-    saveLeaseBtn.textContent = "Lease saved";
-    saveLeaseBtn.style.color = "#07d885";
-    saveLeaseBtn.style.fontWeight = "bold";
 })
 
 /**
  * Handler for "Calculate Payment" button clicks
  */
 calculatePaymentBtn.addEventListener("click", function() {
-    // clear previous error message
+    // clear previous error message and reset styling
     calculateErrorMessage.innerText = "";
+    saveLeaseBtn.style.background = `linear-gradient(
+        to right bottom, 
+        rgba(255, 255, 255, 0.5), 
+        rgba(255, 255, 255, 0.3)
+    )`;
+    saveLeaseBtn.textContent = "Save Lease";
+    saveLeaseBtn.style.color = "#293241";
+    saveLeaseBtn.style.fontWeight = "normal";
     
     // check that all fields are filled (new function)
     let myInputs = checkInputFields(userInputs);
@@ -374,7 +384,7 @@ calculatePaymentBtn.addEventListener("click", function() {
  */
 detailedInfoBtn.addEventListener("click", function() {
     if (detailedInfoTable.style.display === "none") {
-        detailedInfoTable.style.display = "block";
+        detailedInfoTable.style.display = "flex";
         detailedInfoBtn.innerText = "Hide Detailed Payment Info";
     }
     else {
