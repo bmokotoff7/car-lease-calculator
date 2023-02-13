@@ -86,7 +86,7 @@ button {
         rgba(255, 255, 255, 0.3)
     );
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
-    transition-duration: 0.5s;
+    transition-duration: 0.3s;
 }
 
 #save-lease-btn {
@@ -96,7 +96,7 @@ button {
         rgba(255, 255, 255, 0.3)
     );
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
-    transition-duration: 0.5s;
+    transition-duration: 0.3s;
 }
 
 #calculate-payment-btn:hover, 
