@@ -18,101 +18,101 @@
         <main>
             <!-- HEADER -->
             <div id="header-wrapper">
-                <div id="heading">
+                <div id="heading-title">
                     <h1>Car Lease Calculator</h1>
                 </div>    
-
+                
                 <div id="nav-bar-div">
                     <button id="nav-bar-calculator-btn">Calculator</button>
                     <button id="nav-bar-saved-leases-btn">Saved Leases</button>
                 </div>
             </div>
-            <div id="glass">
-            
-            <!-- CALCULATOR TAB -->
-            <div id="calculator-wrapper">
-                <div id="car-info-div">
-                    <h3>Car Information</h3>
-                    <input class="car-info" id="car-year" type="number" placeholder="Year">
-                    <input class="car-info" id="car-make" placeholder="Make">
-                    <input class="car-info" id="car-model" placeholder="Model">
-                    <input class="car-info" id="car-trim" placeholder="Trim">
-                </div>
+            <!-- APP CONTENT-->
+            <div id="content-wrapper">
+                <!-- CALCULATOR TAB -->
+                <div id="calculator-wrapper">
+                    <div id="car-info-div">
+                        <h3>Car Information</h3>
+                        <input class="car-info" id="car-year" type="number" placeholder="Year">
+                        <input class="car-info" id="car-make" placeholder="Make">
+                        <input class="car-info" id="car-model" placeholder="Model">
+                        <input class="car-info" id="car-trim" placeholder="Trim">
+                    </div>
 
-                <div id="price-info-div">
-                    <h3>Lease Information</h3>
-                    <div id="price-info-inputs">
-                        <div class="price-info-inputs-column">
-                            <input class="price-info" id="msrp" type="number" placeholder="MSRP">
-                            <input class="price-info" id="net-cap-cost" type="number" placeholder="Net Capitalized Cost (Selling Price)">
-                            <input class="price-info" id="down-payment" type="number" placeholder="Down Payment">
-                            <input class="price-info" id="residual-value" type="number" placeholder="Residual Value">
-                        </div>
-                        <div class="price-info-inputs-column">
-                            <input class="price-info" id="money-factor" type="number" placeholder="Money Factor">
-                            <input class="price-info" id="lease-term" type="number" placeholder="Lease Term">
-                            <input class="price-info" id="annual-mileage" type="number" placeholder="Annual Mileage"> 
-                            <input class="price-info" id="tax-rate" type="number" placeholder="Tax Rate">
+                    <div id="price-info-div">
+                        <h3>Lease Information</h3>
+                        <div id="price-info-inputs">
+                            <div class="price-info-inputs-column">
+                                <input class="price-info" id="msrp" type="number" placeholder="MSRP">
+                                <input class="price-info" id="net-cap-cost" type="number" placeholder="Net Capitalized Cost (Selling Price)">
+                                <input class="price-info" id="down-payment" type="number" placeholder="Down Payment">
+                                <input class="price-info" id="residual-value" type="number" placeholder="Residual Value">
+                            </div>
+                            <div class="price-info-inputs-column">
+                                <input class="price-info" id="money-factor" type="number" placeholder="Money Factor">
+                                <input class="price-info" id="lease-term" type="number" placeholder="Lease Term">
+                                <input class="price-info" id="annual-mileage" type="number" placeholder="Annual Mileage"> 
+                                <input class="price-info" id="tax-rate" type="number" placeholder="Tax Rate">
+                            </div>
                         </div>
                     </div>
+
+                    <div id="calculate-button-div">
+                        <h4 id="calculate-error-message"> </h4>
+                        <button id="calculate-payment-btn">Calculate Payment</button>
+                        <button id="clear-input-fields-btn">Clear Calculator</button>
+                    </div>
+
+                    <div id="monthly-payment-info-div">
+                        <input class="monthly-payment-info" id="monthly-payment" readonly> <!-- I did something like this in another project to hold outputs, was it this exact way?? -->
+                        <button class="monthly-payment-info" id="detailed-info-btn">Show Detailed Payment Info</button>
+                    </div>
+
+                    <div id="detailed-payment-info-div">
+                        <!-- when button clicked, show/hide additional fields with detailed breakdown of the monthly and total costs -->
+                        <table id="detailed-info-table">
+                            <tr>
+                                <td>Monthly Depreciation:</td>
+                                <td id="monthly-depreciation-table"></td>
+                            </tr>
+                            <tr>
+                                <td>Monthly Rent Charge:</td>
+                                <td id="monthly-rent-charge-table"></td>
+                            </tr>
+                            <tr>
+                                <td>Total Depreciation:</td>
+                                <td id="total-depreciation-table"></td>
+                            </tr>
+                            <tr>
+                                <td>Total Rent Charge:</td>
+                                <td id="total-rent-charge-table"></td>
+                            </tr>
+                            <tr>
+                                <td>Total Cost of Monthly Payments:</td>
+                                <td id="total-monthly-payments-table"></td>
+                            </tr>
+                            <tr>
+                                <td>Total Lease Cost (incl. down payment):</td>
+                                <td id="total-lease-cost-table"></td>
+                            </tr>
+                            <tr>
+                                <td>End of Lease Buyout Price:</td>
+                                <td id="buyout-price-table"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="save-div">
+                        <button id="save-lease-btn">Save Lease</button>
+                    </div>
+
                 </div>
+                <!-- SAVED LEASES TAB-->
+                <div id="saved-leases-wrapper">
+                    <ul id="saved-leases-list">
 
-                <div id="calculate-button-div">
-                    <h4 id="calculate-error-message"> </h4>
-                    <button id="calculate-payment-btn">Calculate Payment</button>
-                    <button id="clear-input-fields-btn">Clear Calculator</button>
+                    </ul>
                 </div>
-
-                <div id="monthly-payment-info-div">
-                    <input class="monthly-payment-info" id="monthly-payment" readonly> <!-- I did something like this in another project to hold outputs, was it this exact way?? -->
-                    <button class="monthly-payment-info" id="detailed-info-btn">Show Detailed Payment Info</button>
-                </div>
-
-                <div id="detailed-payment-info-div">
-                    <!-- when button clicked, show/hide additional fields with detailed breakdown of the monthly and total costs -->
-                    <table id="detailed-info-table">
-                        <tr>
-                            <td>Monthly Depreciation:</td>
-                            <td id="monthly-depreciation-table"></td>
-                        </tr>
-                        <tr>
-                            <td>Monthly Rent Charge:</td>
-                            <td id="monthly-rent-charge-table"></td>
-                        </tr>
-                        <tr>
-                            <td>Total Depreciation:</td>
-                            <td id="total-depreciation-table"></td>
-                        </tr>
-                        <tr>
-                            <td>Total Rent Charge:</td>
-                            <td id="total-rent-charge-table"></td>
-                        </tr>
-                        <tr>
-                            <td>Total Cost of Monthly Payments:</td>
-                            <td id="total-monthly-payments-table"></td>
-                        </tr>
-                        <tr>
-                            <td>Total Lease Cost (incl. down payment):</td>
-                            <td id="total-lease-cost-table"></td>
-                        </tr>
-                        <tr>
-                            <td>End of Lease Buyout Price:</td>
-                            <td id="buyout-price-table"></td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div id="save-div">
-                    <button id="save-lease-btn">Save Lease</button>
-                </div>
-
-            </div>
-            <!-- SAVED LEASES TAB-->
-            <div id="saved-leases-wrapper">
-                <ul id="saved-leases-list">
-
-                </ul>
-            </div>
             </div>
         </main>
     </body>
