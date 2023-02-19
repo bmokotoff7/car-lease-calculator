@@ -43,7 +43,8 @@ main {
     border-top-right-radius: 2rem;
     position: absolute;
     top: 5%;
-    backdrop-filter: blur(2rem);
+    backdrop-filter: blur(1.5rem);
+    -webkit-backdrop-filter: blur(1.5rem);
 }
 
 #nav-bar-div {
@@ -272,7 +273,9 @@ main {
 
 /* Generic Elements */
 input {
+    min-height: 30px;
     font-family: 'Poppins', sans-serif;
+    font-size: medium;
     text-align: center;
     color: #293241;
     padding: 4px 8px;
@@ -296,6 +299,7 @@ input:focus::placeholder {
 
 button {
     font-family: 'Poppins', sans-serif;
+    font-size: medium;
     color: #293241;
     border: 0px solid;
     border-radius: 4px;
