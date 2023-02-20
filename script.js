@@ -40,6 +40,9 @@ const buyoutPriceTableEl = document.getElementById("buyout-price-table");
 /* save-div */
 const saveLeaseBtn = document.getElementById("save-lease-btn");
 
+/* save tab */
+const deleteAllBtn = document.getElementById("delete-all-btn");
+
 /* Array containing all DOM user input elements */
 const userInputs = [carYearEl,
                     carMakeEl,
@@ -237,12 +240,11 @@ class LeaseInfo {
 
 /**-------------------------------------------------------------------------------------------------------------------------------------*/
 
-/*
 if(savedLeasesFromLocalStorage) {
     mySavedLeases = savedLeasesFromLocalStorage;
+    //console.log(mySavedLeases);
     render(mySavedLeases);
 }
-*/
 
 /**
  * Renders the current list of saved leases
@@ -250,7 +252,6 @@ if(savedLeasesFromLocalStorage) {
  */
 function render(savedLeasesArray) {
     let carList = "";
-    let leaseInfoTable = "";
     for (let i = 0; i < savedLeasesArray.length; i++) {
         carList +=
         `<li>
@@ -286,10 +287,12 @@ function render(savedLeasesArray) {
                 </tr>
             </table>
         </li>`
+        
         //leaseInfoTable += `add html for table`
         // use toIdString() to produce proper ID for each table (do they need IDs though? would only allow one of each car)
     }
     savedLeasesListEl.innerHTML = carList;
+    /*
     for (let i = 0; i < savedLeasesArray.length; i++) {
         let savedLeaseCarEl = document.getElementById(`saved-lease-car-${i}`);
         let savedLeaseTableEl = document.getElementById(`saved-lease-table-${i}`);
@@ -298,6 +301,7 @@ function render(savedLeasesArray) {
             savedLeaseTableEl.style.display = "block";
         })
     }
+    */
 }
 
 /**
@@ -337,7 +341,7 @@ calculatePaymentBtn.addEventListener("click", function() {
 
         // create Car and LeaseInfo objects
         let myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
-        let myLeaseInfo = new LeaseInfo(myCar, msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
+        let myLeaseInfo = new LeaseInfo(myCar.toString(), msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
             moneyFactorEl.value, leaseTermEl.value, annualMileageEl.value, taxRateEl.value);
 
         // calculate adj. cap cost
@@ -373,6 +377,8 @@ calculatePaymentBtn.addEventListener("click", function() {
         paymentInfoTable.style.display = "block";
 
         currentLease = myLeaseInfo;
+        //calculatePaymentBtn.textContent = mySavedLeases[0];
+
         saveLeaseBtn.style.display = "block";
 
     }
@@ -448,6 +454,15 @@ navBarSavedLeasesBtn.addEventListener("click", function() {
     navBarSavedLeasesBtn.style.textDecoration = "underline"
     for (let i = 0; i < mySavedLeases.length; i++) {
         let savedLeaseTableEl = document.getElementById(`saved-lease-table-${i}`);
-        savedLeaseTableEl.style.display = "none";
+        //savedLeaseTableEl.style.display = "none";
     }
+});
+
+/**
+ * Handler for "Delete All" button clicks
+ */
+deleteAllBtn.addEventListener("click", function() {
+    localStorage.clear();
+    mySavedLeases = [];
+    render(mySavedLeases);
 });
