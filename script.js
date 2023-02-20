@@ -27,11 +27,9 @@ const calculatePaymentBtn = document.getElementById("calculate-payment-btn");
 const calculateErrorMessage = document.getElementById("calculate-error-message");
 const clearInputFieldsBtn = document.getElementById("clear-input-fields-btn");
 /* monthly-payment-info */
-const monthlyPaymentEl = document.getElementById("monthly-payment");
-const detailedInfoBtn = document.getElementById("detailed-info-btn");
-/* detailed-payment-info */
-const showHideTestEl = document.getElementById("show-hide-test");
-const detailedInfoTable = document.getElementById("detailed-info-table");
+const paymentInfoCarEl = document.getElementById("payment-info-car");
+const paymentInfoTable = document.getElementById("payment-info-table");
+const monthlyPaymentTableEl = document.getElementById("monthly-payment-table");
 const monthlyDepreciationTableEl = document.getElementById("monthly-depreciation-table");
 const monthlyRentChargeTableEl = document.getElementById("monthly-rent-charge-table");
 const totalDepreciationTableEl = document.getElementById("total-depreciation-table");
@@ -239,10 +237,12 @@ class LeaseInfo {
 
 /**-------------------------------------------------------------------------------------------------------------------------------------*/
 
-//if(savedLeasesFromLocalStorage) {
-//    mySavedLeases = savedLeasesFromLocalStorage;
-//    render(mySavedLeases);
-//}
+/*
+if(savedLeasesFromLocalStorage) {
+    mySavedLeases = savedLeasesFromLocalStorage;
+    render(mySavedLeases);
+}
+*/
 
 /**
  * Renders the current list of saved leases
@@ -312,7 +312,7 @@ saveLeaseBtn.addEventListener("click", function() {
 
     mySavedLeases.unshift(currentLease); // change to add new cars to front of array (top of list)?
     currentLease = "";
-    //localStorage.setItem("mySavedLeases", JSON.stringify(mySavedLeases));
+    localStorage.setItem("mySavedLeases", JSON.stringify(mySavedLeases));
     render(mySavedLeases);
 })
 
@@ -361,10 +361,8 @@ calculatePaymentBtn.addEventListener("click", function() {
         // calculate total lease cost
         myLeaseInfo.calculateTotalLeaseCost(myLeaseInfo.totalMonthlyPayments, myLeaseInfo.downPayment);
 
-        monthlyPaymentEl.value = myLeaseInfo.monthlyPayment.toFixed(2);
-        monthlyPaymentEl.style.display = "block";
-        detailedInfoBtn.style.display = "block";
-
+        paymentInfoCarEl.innerText = myCar.toString();
+        monthlyPaymentTableEl.innerText = `$${myLeaseInfo.monthlyPayment.toFixed(2)}`;
         monthlyDepreciationTableEl.innerText = `$${myLeaseInfo.monthlyDepreciation.toFixed(2)}`;
         monthlyRentChargeTableEl.innerText = `$${myLeaseInfo.monthlyRentCharge.toFixed(2)}`;
         totalDepreciationTableEl.innerText = `$${myLeaseInfo.totalDepreciation.toFixed(2)}`;
@@ -372,24 +370,11 @@ calculatePaymentBtn.addEventListener("click", function() {
         totalMonthlyPaymentsTableEl.innerText = `$${myLeaseInfo.totalMonthlyPayments.toFixed(2)}`;
         totalLeaseCostTableEl.innerText = `$${myLeaseInfo.totalLeaseCost.toFixed(2)}`;
         buyoutPriceTableEl.innerText = `$${myLeaseInfo.buyoutPrice.toFixed(2)}`;
+        paymentInfoTable.style.display = "block";
 
         currentLease = myLeaseInfo;
         saveLeaseBtn.style.display = "block";
 
-    }
-});
-
-/**
- * Handler for "Detailed Info" button clicks
- */
-detailedInfoBtn.addEventListener("click", function() {
-    if (detailedInfoTable.style.display === "none") {
-        detailedInfoTable.style.display = "flex";
-        detailedInfoBtn.innerText = "Hide Detailed Payment Info";
-    }
-    else {
-        detailedInfoTable.style.display = "none";
-        detailedInfoBtn.innerText = "Show Detailed Payment Info";
     }
 });
 
@@ -439,6 +424,7 @@ clearInputFieldsBtn.addEventListener("click", function() {
 
 /**
  * Handler for Nav Bar "Calculator" button clicks
+ * TODO: scroll to top when clicked
  */
 navBarCalculatorBtn.addEventListener("click", function() {
     calculatorWrapperEl.style.display = "block";
@@ -451,6 +437,7 @@ navBarCalculatorBtn.addEventListener("click", function() {
 
 /**
  * Handler for Nav Bar "Saved Leases" button clicks
+ * TODO: scroll to top when clicked
  */
 navBarSavedLeasesBtn.addEventListener("click", function() {
     calculatorWrapperEl.style.display = "none";

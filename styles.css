@@ -202,26 +202,7 @@ main {
     display: none;
 }
 
-#detailed-info-btn {
-    background: linear-gradient(
-        to right bottom, 
-        rgba(255, 255, 255, 0.5), 
-        rgba(255, 255, 255, 0.3)
-    );
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
-    transition-duration: 0.3s;
-    display: none;
-}
- 
-#detailed-info-btn:hover {
-   transform: scale(1.1);
-}
-
-#detailed-payment-info-div {
-
-}
-
-#detailed-info-table {
+#payment-info-table {
     display: none;
     text-align: right;
     background: linear-gradient(
@@ -234,7 +215,7 @@ main {
     border: 0px solid;
     border-color: #293241;
     border-radius: 4px;
-    font-size: small;
+    font-size: medium;
     table-layout: auto;
     margin: 20px auto;
 }
@@ -322,7 +303,7 @@ table {
     border: 0px solid;
     border-color: #293241;
     border-radius: 4px;
-    font-size: small;
+    font-size: medium;
     table-layout: auto;
     margin: 20px auto;
 }
