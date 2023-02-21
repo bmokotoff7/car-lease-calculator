@@ -68,6 +68,10 @@ let currentLease = null;
 // add a counter for saved leases and append the saved number to the end of the car ID string
 // ID for table/carList = `${car.toIdString}-savedNum`
 
+/* Constants */
+const DEFAULT_MILEAGE = 12000;
+const COST_PER_MILE = 0.05;
+
 /**
  * Car Class
  */
@@ -138,6 +142,7 @@ class LeaseInfo {
         this.buyoutPrice = null;
         this.totalDepreciation = null;
         this.totalRentCharge = null;
+        this.mileageMonthlyPriceAdjustment = null;
         this.totalMonthlyPayments = null;
         this.totalLeaseCost = null;
         this.monthlyPayment = null;
@@ -208,15 +213,30 @@ class LeaseInfo {
         this.totalRentCharge = monthlyRentCharge * leaseTerm;
     }
 
-    //TODO: add tax rate into calculation
+    /**
+     * Calculates the price adjustment due to annual mileage
+     * @param annualMileage - mileage allowance per year for the lease
+     */
+    calculateMileageMonthlyPriceAdjustment(annualMileage) {
+        if (annualMileage < DEFAULT_MILEAGE) {
+            this.mileageMonthlyPriceAdjustment = (((DEFAULT_MILEAGE - annualMileage) * COST_PER_MILE) * (-1)) / 12;
+        }
+        else if (annualMileage > DEFAULT_MILEAGE) {
+            this.mileageMonthlyPriceAdjustment = ((annualMileage - DEFAULT_MILEAGE) * COST_PER_MILE) / 12;
+        }
+        else {
+            this.mileageMonthlyPriceAdjustment = 0;
+        }
+    }
+
     //TODO: add price adj. based on mileage allowance
     /**
      * Calculates the cost of a monthly payment for the lease
      * @param monthlyDepreciation - total depreciation of the car per month
      * @param monthlyRentCharge - total rent charge on the lease per month
      */
-    calculateMonthlyPayment(monthlyDepreciation, monthlyRentCharge) {
-        this.monthlyPayment = monthlyDepreciation + monthlyRentCharge;
+    calculateMonthlyPayment(monthlyDepreciation, monthlyRentCharge, mileagePriceAdjustment, taxRate) {
+        this.monthlyPayment = (monthlyDepreciation + monthlyRentCharge + mileagePriceAdjustment) * (1 + Number(taxRate));
     }
 
     /**
@@ -358,8 +378,10 @@ calculatePaymentBtn.addEventListener("click", function() {
         myLeaseInfo.calculateMonthlyRentCharge(myLeaseInfo.adjCapCost, myLeaseInfo.buyoutPrice, myLeaseInfo.moneyFactor);
         // calculate total rent charge
         myLeaseInfo.calculateTotalRentCharge(myLeaseInfo.monthlyRentCharge, myLeaseInfo.leaseTerm);
+        // calculate monthly mileage price adjustment
+        myLeaseInfo.calculateMileageMonthlyPriceAdjustment(myLeaseInfo.annualMileage);
         // calculate monthly payment
-        myLeaseInfo.calculateMonthlyPayment(myLeaseInfo.monthlyDepreciation, myLeaseInfo.monthlyRentCharge);
+        myLeaseInfo.calculateMonthlyPayment(myLeaseInfo.monthlyDepreciation, myLeaseInfo.monthlyRentCharge, myLeaseInfo.mileageMonthlyPriceAdjustment, myLeaseInfo.taxRate);
         // calculate total monthly payments
         myLeaseInfo.calculateTotalMonthlyPayments(myLeaseInfo.monthlyPayment, myLeaseInfo.leaseTerm);
         // calculate total lease cost
@@ -375,6 +397,7 @@ calculatePaymentBtn.addEventListener("click", function() {
         totalLeaseCostTableEl.innerText = `$${myLeaseInfo.totalLeaseCost.toFixed(2)}`;
         buyoutPriceTableEl.innerText = `$${myLeaseInfo.buyoutPrice.toFixed(2)}`;
         paymentInfoTable.style.display = "block";
+        paymentInfoTable.scrollIntoView(true);
 
         currentLease = myLeaseInfo;
         //calculatePaymentBtn.textContent = mySavedLeases[0];
