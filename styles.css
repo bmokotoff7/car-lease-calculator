@@ -282,7 +282,7 @@ main {
     margin-right: auto;
 }
 
-#delete-all-confirmation-popup {
+.confirmation-popup {
     display: none;
     flex-direction: column;
     justify-content: center;

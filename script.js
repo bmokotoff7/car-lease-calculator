@@ -26,6 +26,9 @@ const taxRateEl = document.getElementById("tax-rate");
 const calculatePaymentBtn = document.getElementById("calculate-payment-btn");
 const calculateErrorMessage = document.getElementById("calculate-error-message");
 const clearInputFieldsBtn = document.getElementById("clear-input-fields-btn");
+const clearWithoutSavingPopup = document.getElementById("clear-without-saving-confirmation-popup");
+const clearWithoutSavingYesBtn = document.getElementById("clear-without-saving-yes-btn");
+const clearWithoutSavingNoBtn = document.getElementById("clear-without-saving-no-btn");
 /* monthly-payment-info */
 const paymentInfoCarEl = document.getElementById("payment-info-car");
 const paymentInfoTable = document.getElementById("payment-info-table");
@@ -412,7 +415,7 @@ saveLeaseBtn.addEventListener("click", function() {
     saveLeaseBtn.style.fontWeight = "bold";
 
     mySavedLeases.unshift(currentLease); // change to add new cars to front of array (top of list)?
-    currentLease = "";
+    //currentLease = "";
     localStorage.setItem("mySavedLeases", JSON.stringify(mySavedLeases));
     render(mySavedLeases);
 
@@ -492,6 +495,8 @@ calculatePaymentBtn.addEventListener("click", function() {
 
         saveLeaseBtn.style.display = "block";
 
+        clearInputFieldsBtn.textContent = "Calculate New Lease";
+
     }
 });
 
@@ -537,7 +542,41 @@ function clearInputFields(inputFieldsArray) {
  * Handler for "Clear Calculator" button clicks
  */
 clearInputFieldsBtn.addEventListener("click", function() {
+    if (currentLease === null) {
+        clearInputFields(userInputs);
+    }
+    else if (currentLease === mySavedLeases[0]) {
+        clearInputFields(userInputs);
+        clearWithoutSavingPopup.style.display = "none";
+        saveLeaseBtn.style.display = "none";
+        paymentInfoCarEl.style.display = "none";
+        paymentInfoTable.style.display = "none";
+        clearInputFieldsBtn.textContent = "Clear Calculator";
+        currentLease = null;
+    }
+    else {
+        clearWithoutSavingPopup.style.display = "block";
+        clearWithoutSavingPopup.scrollIntoView(true);
+    }
+});
+
+/**
+ * Handler for "Yes" button clicks on clear without saving popup
+ */
+clearWithoutSavingYesBtn.addEventListener("click", function() {
     clearInputFields(userInputs);
+    clearWithoutSavingPopup.style.display = "none";
+    saveLeaseBtn.style.display = "none";
+    paymentInfoCarEl.style.display = "none";
+    paymentInfoTable.style.display = "none";
+    clearInputFieldsBtn.textContent = "Clear Calculator";
+});
+
+/**
+ * Handler for "No" button clicks on clear without saving popup
+ */
+clearWithoutSavingNoBtn.addEventListener("click", function() {
+    clearWithoutSavingPopup.style.display = "none";
 });
 
 /**
@@ -578,6 +617,7 @@ deleteAllBtn.addEventListener("click", function() {
     //mySavedLeases = [];
     //render(mySavedLeases);
     deleteAllPopup.style.display = "flex";
+    deleteAllPopup.scrollIntoView(true);
 });
 
 /**
