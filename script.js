@@ -444,6 +444,9 @@ calculatePaymentBtn.addEventListener("click", function() {
     let myInputs = checkInputFields(userInputs);
     if (myInputs === true) {
 
+        // reset input field styling
+        resetInputFieldStyling(userInputs);
+
         // create Car and LeaseInfo objects
         let myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
         let myLeaseInfo = new LeaseInfo(myCar.toString(), msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
@@ -508,7 +511,8 @@ function checkInputFields(inputFieldsArray) {
             totalEmptyFields++;
         }
         else {
-            inputFieldsArray[i].style.borderColor = "black";
+            inputFieldsArray[i].style.border = "0px solid"
+            inputFieldsArray[i].style.borderColor = "#293241";
         }
     }
     if (totalEmptyFields > 0) {
@@ -596,3 +600,14 @@ deleteAllYesBtn.addEventListener("click", function() {
 deleteAllNoBtn.addEventListener("click", function() {
     deleteAllPopup.style.display = "none";
 });
+
+/**
+ * Sets input fields back to their default styling
+ */
+function resetInputFieldStyling(inputFieldsArray) {
+    for (let i = 0; i < inputFieldsArray.length; i++) {
+        inputFieldsArray[i].style.border = "0px solid"
+        inputFieldsArray[i].style.borderColor = "#293241";
+        calculateErrorMessage.style.display = "none";
+    }
+}
