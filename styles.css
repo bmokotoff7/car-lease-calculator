@@ -6,7 +6,17 @@
 }
 
 body {
-
+    background: linear-gradient(
+        to right top, 
+        #1685b0,
+        #3db082
+        /*
+        #1685b0,
+        #3db082
+        #166db0, 
+        #15cb82
+        */
+    );
 }
 
 main {
@@ -14,23 +24,19 @@ main {
     text-align: center;
     color: #293241;
     min-height: 100vh;
-    background: linear-gradient(
-        to right top, 
-        #1685b0, 
-        #3db082
-    );
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     min-width: 200px;
+    
 }
 
 /* HEADER */
 #header-wrapper {
     z-index: 5;
-    width: 85%;
+    width: 60%;
     display: flex;
     flex-direction: column;
     padding: 18px;
@@ -90,10 +96,10 @@ main {
     min-height: 90vh;
     max-height: 90vh;
     overflow: auto;
-    width: 85%;
+    width: 60%;
     background: linear-gradient(
         to right bottom, 
-        rgba(255, 255, 255, 0.6), 
+        rgba(255, 255, 255, 0.4), 
         rgba(255, 255, 255, 0.2)
     );
     border-radius: 2rem;
@@ -110,6 +116,7 @@ main {
 /* CALCULATOR TAB */
 #calculator-wrapper {
     margin-top: 120px;
+    margin-bottom: 18px;
     display: block;
 }
 
@@ -117,16 +124,16 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px auto;
+    margin: 10px auto;
 }
 
 .car-info {
     margin: 3px auto;
-    width: 180px;
+    width: 220px;
 }
 
 #price-info-div {
-    margin: 20px auto;
+    margin: 10px auto;
     display: flex;
     flex-direction: column;
 }
@@ -136,16 +143,21 @@ main {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    min-width: 300px;
+    resize: none;
 }
 
 .price-info-inputs-column {
     display: flex;
     flex-direction: column;
     margin: 4px 8px;
+    resize: none;
 }
 
 .price-info {
     margin: 2px auto;
+    width: 200px;
+    resize: none;
 }
 
 #calculate-button-div {
@@ -153,7 +165,18 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 20px auto;
+    margin: 10px auto;
+    padding: 12px;
+}
+
+#clear-calculator-div {
+    margin: 10px auto;
+    padding: 12px;
+}
+
+#delete-all-btn-div {
+    margin: 10px auto;
+    padding: 12px;
 }
 
 #calculate-error-message {
@@ -166,24 +189,28 @@ main {
     padding: 5px 10px;
     border-radius: 4px;
     font-weight: 600;
-    font-size: small;
+    font-size: medium;
     color: #ee512a;
 }
 
 #calculate-payment-btn, 
-#clear-input-fields-btn {
+#clear-input-fields-btn,
+#delete-all-btn,
+#save-lease-btn {
     margin: 10px;
     background: linear-gradient(
         to right bottom, 
         rgba(255, 255, 255, 0.5), 
         rgba(255, 255, 255, 0.3)
     );
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 12px 0 rgba(0, 0, 0, 0.15);
     transition-duration: 0.3s;
 }
 
 #calculate-payment-btn:hover, 
-#clear-input-fields-btn:hover {
+#clear-input-fields-btn:hover,
+#delete-all-btn:hover,
+#save-lease-btn:hover {
    transform: scale(1.1);
 }
 
@@ -191,7 +218,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px auto;
+    margin: 10px auto;
 }
 
 .monthly-payment-info {
@@ -221,6 +248,8 @@ main {
 }
 
 #save-div {
+    margin: 10px auto;
+    padding: 12px auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -229,13 +258,7 @@ main {
 #save-lease-btn {
     display: none;
     flex-direction: row;
-    background: linear-gradient(
-        to right bottom, 
-        rgba(255, 255, 255, 0.5), 
-        rgba(255, 255, 255, 0.3)
-    );
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
-    transition-duration: 0.3s;
+    margin: 15px;
 }
 
 #save-lease-btn:hover {
@@ -246,10 +269,43 @@ main {
 #saved-leases-wrapper {
     margin-top: 140px;
     display: none;
+    align-items: center;
+    justify-content: center;
 }
 
 #saved-leases-list {
     list-style-type: none;
+}
+
+#delete-all-btn {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#delete-all-confirmation-popup {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    background: linear-gradient(
+        to right bottom, 
+        rgba(41, 50, 65, 1), 
+        rgba(41, 50, 65, 0.8)
+    );
+    padding: 5px 10px;
+    border-radius: 4px;
+    max-width: fit-content;
+    font-weight: 600;
+    font-size: small;
+    color: white;
+    z-index: 7;
+}
+
+#no-saved-leases-message {
+    display: none;
+    font-weight: 500;
 }
 
 /* Generic Elements */
@@ -268,6 +324,10 @@ input {
         rgba(255, 255, 255, 0.7), 
         rgba(255, 255, 255, 0.5)
     );
+}
+
+input::placeholder {
+    color: rgba(41, 50, 65, 0.5);
 }
 
 input:focus {
@@ -310,6 +370,15 @@ table {
 
 table td {
     margin: 10px;
+    padding: 2px 6px;
+}
+
+.monthly-payment-table-row {
+    font-weight: bold;
+}
+
+.table-bottom-section {
+    border-bottom: 1px solid #293241;
 }
 
 input::-webkit-outer-spin-button,

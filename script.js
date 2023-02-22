@@ -42,6 +42,10 @@ const saveLeaseBtn = document.getElementById("save-lease-btn");
 
 /* save tab */
 const deleteAllBtn = document.getElementById("delete-all-btn");
+const deleteAllPopup = document.getElementById("delete-all-confirmation-popup");
+const deleteAllYesBtn = document.getElementById("delete-all-yes-btn");
+const deleteAllNoBtn = document.getElementById("delete-all-no-btn");
+const noSavedLeasesMessage = document.getElementById("no-saved-leases-message");
 
 /* Array containing all DOM user input elements */
 const userInputs = [carYearEl,
@@ -229,7 +233,16 @@ class LeaseInfo {
         }
     }
 
-    //TODO: add price adj. based on mileage allowance
+    /*
+    calculateTotalSalesTax(netCapCost, taxRate) {
+        this.totalSalesTax = Number(netCapCost) * Number(taxRate);
+    }
+
+    calculateMonthlySalesTax(totalSalesTax, leaseTerm) {
+        this.monthlySalesTax = totalSalesTax / leaseTerm;
+    }
+    */
+
     /**
      * Calculates the cost of a monthly payment for the lease
      * @param monthlyDepreciation - total depreciation of the car per month
@@ -260,10 +273,16 @@ class LeaseInfo {
 
 /**-------------------------------------------------------------------------------------------------------------------------------------*/
 
-if(savedLeasesFromLocalStorage) {
+if (savedLeasesFromLocalStorage) {
     mySavedLeases = savedLeasesFromLocalStorage;
     //console.log(mySavedLeases);
     render(mySavedLeases);
+}
+else {
+    // hide delete all button
+    deleteAllBtn.style.display = "none";
+    // show message
+    noSavedLeasesMessage.style.display = "block";
 }
 
 /**
@@ -273,6 +292,7 @@ if(savedLeasesFromLocalStorage) {
 function render(savedLeasesArray) {
     let carList = "";
     for (let i = 0; i < savedLeasesArray.length; i++) {
+        /*
         carList +=
         `<li>
             <h3 id="saved-lease-car-${i}">${savedLeasesArray[i].car.toString()}</h3>
@@ -307,6 +327,63 @@ function render(savedLeasesArray) {
                 </tr>
             </table>
         </li>`
+        */
+        carList += 
+        `<li>
+            <h3 id=id="saved-lease-car-${i}">${savedLeasesArray[i].car.toString()}</h3>
+            <table id="saved-lease-table-${i}">
+                <tr>
+                    <td class="table-bottom-section monthly-payment-table-row">Monthly Payment:</td>
+                    <td class="table-bottom-section monthly-payment-table-row" id="monthly-payment-table">$${savedLeasesArray[i].monthlyPayment.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Monthly Depreciation:</td>
+                    <td id="monthly-depreciation-table">$${savedLeasesArray[i].monthlyDepreciation.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Monthly Rent Charge:</td>
+                    <td id="monthly-rent-charge-table">$${savedLeasesArray[i].monthlyRentCharge.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Monthly Tax:</td>
+                    <td id="monthly-tax-table">$</td>
+                </tr>
+                <tr>
+                    <td class="table-bottom-section">Monthly Mileage Adjustment:</td>
+                    <td class="table-bottom-section" id="monthly-mileage-adjustment-table">$</td>
+                </tr>
+
+                <tr>
+                    <td>Total Depreciation:</td>
+                    <td id="total-depreciation-table">$${savedLeasesArray[i].totalDepreciation.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Total Rent Charge:</td>
+                    <td id="total-rent-charge-table">$${savedLeasesArray[i].totalRentCharge.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Total Tax:</td>
+                    <td id="total-tax-table">$</td>
+                </tr>
+                <tr>
+                    <td class="table-bottom-section">Total Mileage Adjustment:</td>
+                    <td class="table-bottom-section" id="total-mileage-adjustment-table">$</td>
+                </tr>
+
+                <tr>
+                    <td>Total Cost of Monthly Payments:</td>
+                    <td id="total-monthly-payments-table">$${savedLeasesArray[i].totalMonthlyPayments.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>Total Lease Cost (incl. down payment):</td>
+                    <td id="total-lease-cost-table">$${savedLeasesArray[i].totalLeaseCost.toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td>End of Lease Buyout Price:</td>
+                    <td id="buyout-price-table">$${savedLeasesArray[i].buyoutPrice.toFixed(2)}</td>
+                </tr>
+            </table>
+        </li>`;
         
         //leaseInfoTable += `add html for table`
         // use toIdString() to produce proper ID for each table (do they need IDs though? would only allow one of each car)
@@ -338,6 +415,14 @@ saveLeaseBtn.addEventListener("click", function() {
     currentLease = "";
     localStorage.setItem("mySavedLeases", JSON.stringify(mySavedLeases));
     render(mySavedLeases);
+
+    if (mySavedLeases.length === 1) {
+        // hide message
+        noSavedLeasesMessage.style.display = "none";
+        // show delete all button
+        deleteAllBtn.style.display = "block";
+    }
+
 })
 
 /**
@@ -485,7 +570,29 @@ navBarSavedLeasesBtn.addEventListener("click", function() {
  * Handler for "Delete All" button clicks
  */
 deleteAllBtn.addEventListener("click", function() {
+    //localStorage.clear();
+    //mySavedLeases = [];
+    //render(mySavedLeases);
+    deleteAllPopup.style.display = "flex";
+});
+
+/**
+ * Handler for "Yes" button clicks on delete all popup
+ */
+deleteAllYesBtn.addEventListener("click", function() {
     localStorage.clear();
     mySavedLeases = [];
     render(mySavedLeases);
+    deleteAllPopup.style.display = "none";
+    // hide delete all button
+    deleteAllBtn.style.display = "none";
+    // show message
+    noSavedLeasesMessage.style.display = "block";
+});
+
+/**
+ * Handler for "No" button clicks on delete all popup
+ */
+deleteAllNoBtn.addEventListener("click", function() {
+    deleteAllPopup.style.display = "none";
 });

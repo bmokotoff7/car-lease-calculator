@@ -44,7 +44,7 @@
                         <div id="price-info-inputs">
                             <div class="price-info-inputs-column">
                                 <input class="price-info" id="msrp" type="number" placeholder="MSRP">
-                                <input class="price-info" id="net-cap-cost" type="number" placeholder="Net Capitalized Cost (Selling Price)">
+                                <input class="price-info" id="net-cap-cost" type="number" placeholder="Net Capitalized Cost">
                                 <input class="price-info" id="down-payment" type="number" placeholder="Down Payment">
                                 <input class="price-info" id="residual-value" type="number" placeholder="Residual Value">
                             </div>
@@ -60,15 +60,14 @@
                     <div id="calculate-button-div">
                         <h4 id="calculate-error-message"> </h4>
                         <button id="calculate-payment-btn">Calculate Payment</button>
-                        <button id="clear-input-fields-btn">Clear Calculator</button>
                     </div>
 
                     <div id="monthly-payment-info-div">
                         <h3 id="payment-info-car"></h3>
                         <table id="payment-info-table">
                             <tr>
-                                <td>Monthly Payment:</td>
-                                <td id="monthly-payment-table"></td>
+                                <td class="table-bottom-section monthly-payment-table-row">Monthly Payment:</td>
+                                <td class="table-bottom-section monthly-payment-table-row" id="monthly-payment-table"></td>
                             </tr>
                             <tr>
                                 <td>Monthly Depreciation:</td>
@@ -79,6 +78,15 @@
                                 <td id="monthly-rent-charge-table"></td>
                             </tr>
                             <tr>
+                                <td>Monthly Tax:</td>
+                                <td id="monthly-tax-table"></td>
+                            </tr>
+                            <tr>
+                                <td class="table-bottom-section">Monthly Mileage Adjustment:</td>
+                                <td class="table-bottom-section" id="monthly-mileage-adjustment-table"></td>
+                            </tr>
+
+                            <tr>
                                 <td>Total Depreciation:</td>
                                 <td id="total-depreciation-table"></td>
                             </tr>
@@ -86,6 +94,15 @@
                                 <td>Total Rent Charge:</td>
                                 <td id="total-rent-charge-table"></td>
                             </tr>
+                            <tr>
+                                <td>Total Tax:</td>
+                                <td id="total-tax-table"></td>
+                            </tr>
+                            <tr>
+                                <td class="table-bottom-section">Total Mileage Adjustment:</td>
+                                <td class="table-bottom-section" id="total-mileage-adjustment-table"></td>
+                            </tr>
+
                             <tr>
                                 <td>Total Cost of Monthly Payments:</td>
                                 <td id="total-monthly-payments-table"></td>
@@ -105,13 +122,27 @@
                         <button id="save-lease-btn">Save Lease</button>
                     </div>
 
+                    <div id="clear-calculator-div">
+                        <button id="clear-input-fields-btn">Clear Calculator</button>
+                    </div>
+
                 </div>
                 <!-- SAVED LEASES TAB-->
                 <div id="saved-leases-wrapper">
+                    <h3 id="no-saved-leases-message">Saved leases will appear here</h3>
                     <ul id="saved-leases-list">
 
                     </ul>
-                    <button id="delete-all-btn">Delete All</button>
+                    <div id="delete-all-btn-div">
+                        <button id="delete-all-btn">Delete All</button>
+                    </div>
+                    <div id="delete-all-confirmation-popup">
+                        <h3>Are you sure you want to delete all saved leases?</h3>
+                        <div id="delete-all-confirmation-btns">
+                            <button id="delete-all-yes-btn">Yes</button>
+                            <button id="delete-all-no-btn">No</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
