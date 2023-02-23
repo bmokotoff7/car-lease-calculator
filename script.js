@@ -556,6 +556,8 @@ function checkInputFields(inputFieldsArray) {
 function clearInputFields(inputFieldsArray) {
     for (let i = 0; i < inputFieldsArray.length; i++) {
         inputFieldsArray[i].value = "";
+        inputFieldsArray[i].style.border = "0px solid"
+        inputFieldsArray[i].style.borderColor = "#293241";
     }
 }
 
