@@ -559,6 +559,7 @@ function clearInputFields(inputFieldsArray) {
         inputFieldsArray[i].style.border = "0px solid"
         inputFieldsArray[i].style.borderColor = "#293241";
     }
+    calculateErrorMessage.style.display = "none";
 }
 
 /**
