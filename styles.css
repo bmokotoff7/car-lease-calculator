@@ -138,6 +138,22 @@ main {
     flex-direction: column;
 }
 
+#lease-info-heading {
+    max-width: fit-content;
+    margin: auto;
+}
+
+#lease-info-heading:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#lease-info-explained {
+    display: none;
+    text-align: left;
+    justify-content: left;
+}
+
 #price-info-inputs {
     display: flex;
     flex-direction: row;
@@ -156,7 +172,7 @@ main {
 
 .price-info {
     margin: 2px auto;
-    width: 200px;
+    width: 220px;
     resize: none;
 }
 

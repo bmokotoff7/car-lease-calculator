@@ -54,6 +54,10 @@ const deleteAllYesBtn = document.getElementById("delete-all-yes-btn");
 const deleteAllNoBtn = document.getElementById("delete-all-no-btn");
 const noSavedLeasesMessage = document.getElementById("no-saved-leases-message");
 
+/* other */
+const leaseInfoHeading = document.getElementById("lease-info-heading");
+const leaseInfoExplained = document.getElementById("lease-info-explained");
+
 /* Array containing all DOM user input elements */
 const userInputs = [carYearEl,
                     carMakeEl,
@@ -75,7 +79,7 @@ const savedLeasesFromLocalStorage = JSON.parse(localStorage.getItem("mySavedLeas
 /* DOM element that shows the list of saved leases */
 const savedLeasesListEl = document.getElementById("saved-leases-list");
 /* Holds the current LeaseInfo object and is passed in when "Save Lease" is clicked */
-let currentLease = null;
+let currentLease = "";
 // add a counter for saved leases and append the saved number to the end of the car ID string
 // ID for table/carList = `${car.toIdString}-savedNum`
 
@@ -301,42 +305,6 @@ else {
 function render(savedLeasesArray) {
     let carList = "";
     for (let i = 0; i < savedLeasesArray.length; i++) {
-        /*
-        carList +=
-        `<li>
-            <h3 id="saved-lease-car-${i}">${savedLeasesArray[i].car.toString()}</h3>
-            <table class="saved-lease-table" "id="saved-lease-table-${i}">
-                <tr>
-                    <td>Monthly Depreciation:</td>
-                    <td id="monthly-depreciation-table">$${savedLeasesArray[i].monthlyDepreciation.toFixed(2)}</td>
-                </tr>
-                <tr>
-                    <td>Monthly Rent Charge:</td>
-                    <td id="monthly-rent-charge-table">$${savedLeasesArray[i].monthlyRentCharge.toFixed(2)}</td>
-                </tr>
-                <tr>
-                    <td>Total Depreciation:</td>
-                    <td id="total-depreciation-table">$${savedLeasesArray[i].totalDepreciation.toFixed(2)}</td>
-                </tr>
-                <tr>
-                    <td>Total Rent Charge:</td>
-                    <td id="total-rent-charge-table">$${savedLeasesArray[i].totalRentCharge.toFixed(2)}</td>
-                </tr>
-                <tr>
-                    <td>Total Cost of Monthly Payments:</td>
-                    <td id="total-monthly-payments-table">$${savedLeasesArray[i].totalMonthlyPayments.toFixed(2)}</td>
-                </tr>
-                <tr>
-                    <td>Total Lease Cost (incl. down payment):</td>
-                    <td id="total-lease-cost-table">$${savedLeasesArray[i].totalLeaseCost.toFixed(2)}</td>
-                </tr>
-                <tr>
-                    <td>End of Lease Buyout Price:</td>
-                    <td id="buyout-price-table">$${savedLeasesArray[i].buyoutPrice.toFixed(2)}</td>
-                </tr>
-            </table>
-        </li>`
-        */
         carList += 
         `<li>
             <h3 id=id="saved-lease-car-${i}">${savedLeasesArray[i].car.toString()}</h3>
@@ -393,21 +361,8 @@ function render(savedLeasesArray) {
                 </tr>
             </table>
         </li>`;
-        
-        //leaseInfoTable += `add html for table`
-        // use toIdString() to produce proper ID for each table (do they need IDs though? would only allow one of each car)
     }
     savedLeasesListEl.innerHTML = carList;
-    /*
-    for (let i = 0; i < savedLeasesArray.length; i++) {
-        let savedLeaseCarEl = document.getElementById(`saved-lease-car-${i}`);
-        let savedLeaseTableEl = document.getElementById(`saved-lease-table-${i}`);
-        savedLeaseTableEl.style.display = "none";
-        savedLeaseCarEl.addEventListener("click", function() {
-            savedLeaseTableEl.style.display = "block";
-        })
-    }
-    */
 }
 
 /**
@@ -566,7 +521,8 @@ function clearInputFields(inputFieldsArray) {
  * Handler for "Clear Calculator" button clicks
  */
 clearInputFieldsBtn.addEventListener("click", function() {
-    if (currentLease === null) {
+    console.log(currentLease);
+    if (currentLease === "") {
         clearInputFields(userInputs);
     }
     else if (currentLease === mySavedLeases[0]) {
@@ -576,7 +532,7 @@ clearInputFieldsBtn.addEventListener("click", function() {
         paymentInfoCarEl.style.display = "none";
         paymentInfoTable.style.display = "none";
         clearInputFieldsBtn.textContent = "Clear Calculator";
-        currentLease = null;
+        currentLease = "";
     }
     else {
         clearWithoutSavingPopup.style.display = "block";
@@ -594,6 +550,7 @@ clearWithoutSavingYesBtn.addEventListener("click", function() {
     paymentInfoCarEl.style.display = "none";
     paymentInfoTable.style.display = "none";
     clearInputFieldsBtn.textContent = "Clear Calculator";
+    currentLease = "";
 });
 
 /**
@@ -675,3 +632,15 @@ function resetInputFieldStyling(inputFieldsArray) {
         calculateErrorMessage.style.display = "none";
     }
 }
+
+/**
+ * Handler for clicks on lease information heading
+ */
+leaseInfoHeading.addEventListener("click", function() {
+    if (leaseInfoExplained.style.display === "block") {
+        leaseInfoExplained.style.display = "none";
+    }
+    else {
+        leaseInfoExplained.style.display = "block";
+    }
+})

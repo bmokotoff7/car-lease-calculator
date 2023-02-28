@@ -36,23 +36,33 @@
                         <input class="car-info" id="car-year" type="number" placeholder="Year">
                         <input class="car-info" id="car-make" placeholder="Make">
                         <input class="car-info" id="car-model" placeholder="Model">
-                        <input class="car-info" id="car-trim" placeholder="Trim">
+                        <input class="car-info" id="car-trim" placeholder="Trim/Submodel">
                     </div>
 
                     <div id="price-info-div">
-                        <h3>Lease Information</h3>
+                        <h3 id="lease-info-heading">Lease Information</h3>
+                        <div class="confirmation-popup" id="lease-info-explained">
+                            <p>MSRP: Manufacturer Suggested Retail Price, also known as the "sticker price" of the vehicle.</p>
+                            <p>Net Capitalized Cost: The final selling price of the vehicle, after any negotiations and other discounts.</p>
+                            <p>Down Payment: Any money that is paid up front at the start of the lease.</p>
+                            <p>Residual Value: The percentage of the car's value remaining at the end of the lease term.</p>
+                            <p>Money Factor: The interest rate charged on the lease. To convert a standard interest rate to a money factor, divide it by 2400.</p>
+                            <p>Lease Term: The number of months the vehicle will be leased for, typically between 24 and 48 months.</p>
+                            <p>Annual Mileage: The total mileage allotment for each year in the lease term.</p>
+                            <p>Tax Rate: The local vehicle sales tax rate.</p>
+                        </div>
                         <div id="price-info-inputs">
                             <div class="price-info-inputs-column">
-                                <input class="price-info" id="msrp" type="number" placeholder="MSRP">
-                                <input class="price-info" id="net-cap-cost" type="number" placeholder="Net Capitalized Cost">
-                                <input class="price-info" id="down-payment" type="number" placeholder="Down Payment">
-                                <input class="price-info" id="residual-value" type="number" placeholder="Residual Value">
+                                <input class="price-info" id="msrp" type="number" placeholder="MSRP ($)">
+                                <input class="price-info" id="net-cap-cost" type="number" placeholder="Net Capitalized Cost ($)">
+                                <input class="price-info" id="down-payment" type="number" placeholder="Down Payment ($)">
+                                <input class="price-info" id="residual-value" type="number" placeholder="Residual Value (%)">
                             </div>
                             <div class="price-info-inputs-column">
                                 <input class="price-info" id="money-factor" type="number" placeholder="Money Factor">
-                                <input class="price-info" id="lease-term" type="number" placeholder="Lease Term">
+                                <input class="price-info" id="lease-term" type="number" placeholder="Lease Term (months)">
                                 <input class="price-info" id="annual-mileage" type="number" placeholder="Annual Mileage"> 
-                                <input class="price-info" id="tax-rate" type="number" placeholder="Tax Rate">
+                                <input class="price-info" id="tax-rate" type="number" placeholder="Tax Rate (%)">
                             </div>
                         </div>
                     </div>
