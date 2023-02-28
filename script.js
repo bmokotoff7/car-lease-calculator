@@ -1,19 +1,21 @@
-/**
- * DOM Elements from index.html
- */
-/* nav-bar */
+/* DOM Elements from index.html */
+
+/* HEADER */
+/* nav-bar-div */
 const navBarCalculatorBtn = document.getElementById("nav-bar-calculator-btn");
 const navBarSavedLeasesBtn = document.getElementById("nav-bar-saved-leases-btn");
-/* site tabs */
+
+/* CALCULATOR TAB */
 const calculatorWrapperEl = document.getElementById("calculator-wrapper");
-const savedLeasesWrapperEl = document.getElementById("saved-leases-wrapper");
-/* car-info */
+/* car-info-div */
 const carInfoDiv = document.getElementById("car-info-div");
 const carYearEl = document.getElementById("car-year");
 const carMakeEl = document.getElementById("car-make");
 const carModelEl = document.getElementById("car-model");
 const carTrimEl = document.getElementById("car-trim");
-/* price-info */
+/* price-info-div */
+const leaseInfoHeading = document.getElementById("lease-info-heading");
+const leaseInfoExplained = document.getElementById("lease-info-explained");
 const msrpEl = document.getElementById("msrp");
 const netCapCostEl = document.getElementById("net-cap-cost");
 const downPaymentEl = document.getElementById("down-payment");
@@ -22,14 +24,10 @@ const moneyFactorEl = document.getElementById("money-factor");
 const leaseTermEl = document.getElementById("lease-term");
 const annualMileageEl = document.getElementById("annual-mileage");
 const taxRateEl = document.getElementById("tax-rate");
-/* calculate-buttons */
+/* calculate-button-div */
 const calculatePaymentBtn = document.getElementById("calculate-payment-btn");
 const calculateErrorMessage = document.getElementById("calculate-error-message");
-const clearInputFieldsBtn = document.getElementById("clear-input-fields-btn");
-const clearWithoutSavingPopup = document.getElementById("clear-without-saving-confirmation-popup");
-const clearWithoutSavingYesBtn = document.getElementById("clear-without-saving-yes-btn");
-const clearWithoutSavingNoBtn = document.getElementById("clear-without-saving-no-btn");
-/* monthly-payment-info */
+/* monthly-payment-info-div */
 const paymentInfoCarEl = document.getElementById("payment-info-car");
 const paymentInfoTable = document.getElementById("payment-info-table");
 const monthlyPaymentTableEl = document.getElementById("monthly-payment-table");
@@ -44,19 +42,28 @@ const totalMileageAdjustmentTableEl = document.getElementById("total-mileage-adj
 const totalMonthlyPaymentsTableEl = document.getElementById("total-monthly-payments-table");
 const totalLeaseCostTableEl = document.getElementById("total-lease-cost-table");
 const buyoutPriceTableEl = document.getElementById("buyout-price-table");
-/* save-div */
+/* save-btn-div */
 const saveLeaseBtn = document.getElementById("save-lease-btn");
+/* clear-calculator-div */
+const clearInputFieldsBtn = document.getElementById("clear-input-fields-btn");
+/* clear-without-saving-confirmation-popup */
+const clearWithoutSavingPopup = document.getElementById("clear-without-saving-confirmation-popup");
+const clearWithoutSavingYesBtn = document.getElementById("clear-without-saving-yes-btn");
+const clearWithoutSavingNoBtn = document.getElementById("clear-without-saving-no-btn");
 
-/* save tab */
+/* SAVED LEASES TAB */
+const savedLeasesWrapperEl = document.getElementById("saved-leases-wrapper");
+/* saved-leases-list */
+const savedLeasesListEl = document.getElementById("saved-leases-list");
+/* no-saved-leases-message */
+const noSavedLeasesMessage = document.getElementById("no-saved-leases-message");
+/* delete-all-btn-div */
 const deleteAllBtn = document.getElementById("delete-all-btn");
+/* delete-all-confirmation-popup */
 const deleteAllPopup = document.getElementById("delete-all-confirmation-popup");
 const deleteAllYesBtn = document.getElementById("delete-all-yes-btn");
 const deleteAllNoBtn = document.getElementById("delete-all-no-btn");
-const noSavedLeasesMessage = document.getElementById("no-saved-leases-message");
-
-/* other */
-const leaseInfoHeading = document.getElementById("lease-info-heading");
-const leaseInfoExplained = document.getElementById("lease-info-explained");
+/* End DOM Elements */
 
 /* Array containing all DOM user input elements */
 const userInputs = [carYearEl,
@@ -71,19 +78,14 @@ const userInputs = [carYearEl,
                     leaseTermEl,
                     annualMileageEl,
                     taxRateEl];
-
-/* Array used to hold saved leases (holds LeaseInfo objects)*/
+/* Array used to hold saved leases (holds LeaseInfo objects) */
 let mySavedLeases = [];
 /* Holds saved leases from LocalStorage */
 const savedLeasesFromLocalStorage = JSON.parse(localStorage.getItem("mySavedLeases"));
-/* DOM element that shows the list of saved leases */
-const savedLeasesListEl = document.getElementById("saved-leases-list");
 /* Holds the current LeaseInfo object and is passed in when "Save Lease" is clicked */
 let currentLease = "";
-// add a counter for saved leases and append the saved number to the end of the car ID string
-// ID for table/carList = `${car.toIdString}-savedNum`
 
-/* Constants */
+/* Lease Calculation Constants */
 const DEFAULT_MILEAGE = 12000;
 const COST_PER_MILE = 0.05;
 
@@ -152,20 +154,20 @@ class LeaseInfo {
         /**
          * Fields provided by calculation functions
          */
-        this.adjCapCost = null;
-        this.equivInterestRate = null;
-        this.buyoutPrice = null;
-        this.totalDepreciation = null;
-        this.totalRentCharge = null;
-        this.monthlyMileageAdjustment = null;
-        this.totalMileageAdjustment = null;
-        this.totalMonthlyPayments = null;
-        this.totalLeaseCost = null;
-        this.monthlyPayment = null;
-        this.monthlyDepreciation = null;
-        this.monthlyRentCharge = null;
-        this.monthlyTax = null;
-        this.totalTax = null;
+        this.adjCapCost = 0;
+        this.equivInterestRate = 0;
+        this.buyoutPrice = 0;
+        this.totalDepreciation = 0;
+        this.totalRentCharge = 0;
+        this.monthlyMileageAdjustment = 0;
+        this.totalMileageAdjustment = 0;
+        this.totalMonthlyPayments = 0;
+        this.totalLeaseCost = 0;
+        this.monthlyPayment = 0;
+        this.monthlyDepreciation = 0;
+        this.monthlyRentCharge = 0;
+        this.monthlyTax = 0;
+        this.totalTax = 0;
     }
 
     /**
@@ -188,10 +190,10 @@ class LeaseInfo {
     /**
      * Calculates the estimated buyout price of the car at the end of the lease term (residual value in cash)
      * @param msrp - Manufacturer Suggested Retail Price of the car
-     * @param residualValue - the value of the car at the end of the lease term; represented as a percentage
+     * @param residualValue - the value of the car at the end of the lease term, represented as a percentage
      */
     calculateBuyoutPrice(msrp, residualValue) {
-        this.buyoutPrice = msrp * residualValue;
+        this.buyoutPrice = msrp * (residualValue / 100);
     }
 
     /**
@@ -232,7 +234,7 @@ class LeaseInfo {
     }
 
     /**
-     * Calculates the price adjustment due to annual mileage
+     * Calculates the monthly price adjustment due to annual mileage
      * @param annualMileage - mileage allowance per year for the lease
      */
     calculateMonthlyMileageAdjustment(annualMileage) {
@@ -247,10 +249,20 @@ class LeaseInfo {
         }
     }
 
+    /**
+     * Calculates the total price adjustment due to annual mileage
+     * @param monthlyMileageAdjustment - monthly price adjustment due to annual mileage
+     * @param leaseTerm - the number of months in the lease
+     */
     calculateTotalMileageAdjustment(monthlyMileageAdjustment, leaseTerm) {
         this.totalMileageAdjustment = monthlyMileageAdjustment * leaseTerm;
     }
 
+    /**
+     * Calculates the total tax charged on the lease
+     * @param monthlyTax - tax charged on each lease payment
+     * @param leaseTerm - the number of months in the lease
+     */
     calculateTotalTax(monthlyTax, leaseTerm) {
         this.totalTax = monthlyTax * leaseTerm;
     }
@@ -261,7 +273,7 @@ class LeaseInfo {
      * @param monthlyRentCharge - total rent charge on the lease per month
      */
     calculateMonthlyPayment(monthlyDepreciation, monthlyRentCharge, monthlyMileageAdjustment, taxRate) {
-        this.monthlyPayment = (monthlyDepreciation + monthlyRentCharge + monthlyMileageAdjustment) * (1 + Number(taxRate));
+        this.monthlyPayment = (monthlyDepreciation + monthlyRentCharge + monthlyMileageAdjustment) * (1 + Number((taxRate / 100)));
         this.monthlyTax = this.monthlyPayment - (monthlyDepreciation + monthlyRentCharge + monthlyMileageAdjustment);
     }
 
@@ -284,19 +296,19 @@ class LeaseInfo {
     }
 } // LeaseInfo
 
-/**-------------------------------------------------------------------------------------------------------------------------------------*/
+/**--------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
+/* Renders saved leases upon startup, if there are saved leases */
 if (savedLeasesFromLocalStorage) {
     mySavedLeases = savedLeasesFromLocalStorage;
-    //console.log(mySavedLeases);
     render(mySavedLeases);
 }
 else {
-    // hide delete all button
     deleteAllBtn.style.display = "none";
-    // show message
     noSavedLeasesMessage.style.display = "block";
 }
+
+/* FUNCTIONS */
 
 /**
  * Renders the current list of saved leases
@@ -366,115 +378,16 @@ function render(savedLeasesArray) {
 }
 
 /**
- * Handler for "Save Lease" button clicks
+ * Sets input fields back to their default styling
+ * @param inputFieldsArray - an array containing all user input fields
  */
-saveLeaseBtn.addEventListener("click", function() {
-/*
-    saveLeaseBtn.style.background = "#07d885";
-    saveLeaseBtn.textContent = "Lease saved";
-    saveLeaseBtn.style.color = "white";
-    saveLeaseBtn.style.fontWeight = "bold";
-*/
-    mySavedLeases.unshift(currentLease); // change to add new cars to front of array (top of list)?
-    //currentLease = "";
-    localStorage.setItem("mySavedLeases", JSON.stringify(mySavedLeases));
-    render(mySavedLeases);
-
-    if (mySavedLeases.length === 1) {
-        // hide message
-        noSavedLeasesMessage.style.display = "none";
-        // show delete all button
-        deleteAllBtn.style.display = "block";
+function resetInputFieldStyling(inputFieldsArray) {
+    for (let i = 0; i < inputFieldsArray.length; i++) {
+        inputFieldsArray[i].style.border = "0px solid"
+        inputFieldsArray[i].style.borderColor = "#293241";
+        calculateErrorMessage.style.display = "none";
     }
-
-    saveLeaseBtn.style.background = "#07d885";
-    saveLeaseBtn.textContent = "Lease saved";
-    saveLeaseBtn.style.color = "white";
-    saveLeaseBtn.style.fontWeight = "bold";
-    saveLeaseBtn.disabled = true;
-
-})
-
-/**
- * Handler for "Calculate Payment" button clicks
- */
-calculatePaymentBtn.addEventListener("click", function() {
-    // clear previous error message and reset styling
-    calculateErrorMessage.innerText = "";
-    saveLeaseBtn.style.background = `linear-gradient(
-        to right bottom, 
-        rgba(255, 255, 255, 0.5), 
-        rgba(255, 255, 255, 0.3)
-    )`;
-    saveLeaseBtn.textContent = "Save Lease";
-    saveLeaseBtn.style.color = "#293241";
-    saveLeaseBtn.style.fontWeight = "normal";
-    saveLeaseBtn.disabled = false;
-    
-    // check that all fields are filled (new function)
-    let myInputs = checkInputFields(userInputs);
-    if (myInputs === true) {
-
-        // reset input field styling
-        resetInputFieldStyling(userInputs);
-
-        // create Car and LeaseInfo objects
-        let myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
-        let myLeaseInfo = new LeaseInfo(myCar.toString(), msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
-            moneyFactorEl.value, leaseTermEl.value, annualMileageEl.value, taxRateEl.value);
-
-        // calculate adj. cap cost
-        myLeaseInfo.calculateAdjCapCost(myLeaseInfo.netCapCost, myLeaseInfo.downPayment);
-        // calculate equiv. interest rate
-        myLeaseInfo.calculateEquivalentInterestRate(myLeaseInfo.moneyFactor);
-        // calculate buyout price
-        myLeaseInfo.calculateBuyoutPrice(myLeaseInfo.msrp, myLeaseInfo.residualValue);
-        // calculate total depreciation
-        myLeaseInfo.calculateTotalDepreciation(myLeaseInfo.adjCapCost, myLeaseInfo.buyoutPrice);
-        // calculate monthly depreciation
-        myLeaseInfo.calculateMonthlyDepreciation(myLeaseInfo.totalDepreciation, myLeaseInfo.leaseTerm);
-        // calculate monthly rent charge
-        myLeaseInfo.calculateMonthlyRentCharge(myLeaseInfo.adjCapCost, myLeaseInfo.buyoutPrice, myLeaseInfo.moneyFactor);
-        // calculate total rent charge
-        myLeaseInfo.calculateTotalRentCharge(myLeaseInfo.monthlyRentCharge, myLeaseInfo.leaseTerm);
-        // calculate monthly mileage price adjustment
-        myLeaseInfo.calculateMonthlyMileageAdjustment(myLeaseInfo.annualMileage);
-        // calculate total mileage price adjustment
-        myLeaseInfo.calculateTotalMileageAdjustment(myLeaseInfo.monthlyMileageAdjustment, myLeaseInfo.leaseTerm);
-        // calculate monthly payment and monthly tax
-        myLeaseInfo.calculateMonthlyPayment(myLeaseInfo.monthlyDepreciation, myLeaseInfo.monthlyRentCharge, myLeaseInfo.monthlyMileageAdjustment, myLeaseInfo.taxRate);
-        // calculate total tax
-        myLeaseInfo.calculateTotalTax(myLeaseInfo.monthlyTax, myLeaseInfo.leaseTerm);
-        // calculate total monthly payments
-        myLeaseInfo.calculateTotalMonthlyPayments(myLeaseInfo.monthlyPayment, myLeaseInfo.leaseTerm);
-        // calculate total lease cost
-        myLeaseInfo.calculateTotalLeaseCost(myLeaseInfo.totalMonthlyPayments, myLeaseInfo.downPayment);
-
-        paymentInfoCarEl.innerText = myCar.toString();
-        monthlyPaymentTableEl.innerText = `$${myLeaseInfo.monthlyPayment.toFixed(2)}`;
-        monthlyDepreciationTableEl.innerText = `$${myLeaseInfo.monthlyDepreciation.toFixed(2)}`;
-        monthlyRentChargeTableEl.innerText = `$${myLeaseInfo.monthlyRentCharge.toFixed(2)}`;
-        monthlyTaxTableEl.innerText = `$${myLeaseInfo.monthlyTax.toFixed(2)}`;
-        monthlyMileageAdjustmentTableEl.innerText = `$${myLeaseInfo.monthlyMileageAdjustment.toFixed(2)}`;
-        totalDepreciationTableEl.innerText = `$${myLeaseInfo.totalDepreciation.toFixed(2)}`;
-        totalRentChargeTableEl.innerText = `$${myLeaseInfo.totalRentCharge.toFixed(2)}`;
-        totalTaxTableEl.innerText = `$${myLeaseInfo.totalTax.toFixed(2)}`;
-        totalMileageAdjustmentTableEl.innerText = `$${myLeaseInfo.totalMileageAdjustment.toFixed(2)}`;
-        totalMonthlyPaymentsTableEl.innerText = `$${myLeaseInfo.totalMonthlyPayments.toFixed(2)}`;
-        totalLeaseCostTableEl.innerText = `$${myLeaseInfo.totalLeaseCost.toFixed(2)}`;
-        buyoutPriceTableEl.innerText = `$${myLeaseInfo.buyoutPrice.toFixed(2)}`;
-        paymentInfoTable.style.display = "block";
-        paymentInfoTable.scrollIntoView(true);
-
-        currentLease = myLeaseInfo;
-        //calculatePaymentBtn.textContent = mySavedLeases[0];
-
-        saveLeaseBtn.style.display = "block";
-
-        clearInputFieldsBtn.textContent = "Calculate New Lease";
-
-    }
-});
+}
 
 /**
  * Checks if all fields are filled correctly
@@ -516,6 +429,152 @@ function clearInputFields(inputFieldsArray) {
     }
     calculateErrorMessage.style.display = "none";
 }
+
+/* EVENT LISTENERS */
+
+/**
+ * Handler for Nav Bar "Calculator" button clicks
+ */
+navBarCalculatorBtn.addEventListener("click", function() {
+    calculatorWrapperEl.style.display = "block";
+    savedLeasesWrapperEl.style.display = "none";
+    navBarCalculatorBtn.style.fontWeight = "bold";
+    navBarCalculatorBtn.style.textDecoration = "underline";
+    navBarSavedLeasesBtn.style.fontWeight = "normal";
+    navBarSavedLeasesBtn.style.textDecoration = "none";
+});
+
+/**
+ * Handler for Nav Bar "Saved Leases" button clicks
+ */
+navBarSavedLeasesBtn.addEventListener("click", function() {
+    calculatorWrapperEl.style.display = "none";
+    savedLeasesWrapperEl.style.display = "block";
+    navBarCalculatorBtn.style.fontWeight = "normal";
+    navBarCalculatorBtn.style.textDecoration = "none";
+    navBarSavedLeasesBtn.style.fontWeight = "bold";
+    navBarSavedLeasesBtn.style.textDecoration = "underline"
+});
+
+/**
+ * Handler for clicks on "Lease Information" heading
+ */
+leaseInfoHeading.addEventListener("click", function() {
+    if (leaseInfoExplained.style.display === "block") {
+        leaseInfoExplained.style.display = "none";
+    }
+    else {
+        leaseInfoExplained.style.display = "block";
+    }
+})
+
+/**
+ * Handler for "Calculate Payment" button clicks
+ */
+calculatePaymentBtn.addEventListener("click", function() {
+    // clear previous error message and reset styling
+    calculateErrorMessage.innerText = "";
+    saveLeaseBtn.style.background = `linear-gradient(
+        to right bottom, 
+        rgba(255, 255, 255, 0.5), 
+        rgba(255, 255, 255, 0.3)
+    )`;
+    saveLeaseBtn.textContent = "Save Lease";
+    saveLeaseBtn.style.color = "#293241";
+    saveLeaseBtn.style.fontWeight = "normal";
+    saveLeaseBtn.disabled = false;
+    
+    // check that all fields are filled
+    let myInputs = checkInputFields(userInputs);
+    if (myInputs === true) {
+
+        // reset input field styling
+        resetInputFieldStyling(userInputs);
+
+        // create Car and LeaseInfo objects
+        let myCar = new Car(carYearEl.value, carMakeEl.value, carModelEl.value, carTrimEl.value);
+        let myLeaseInfo = new LeaseInfo(myCar.toString(), msrpEl.value, netCapCostEl.value, downPaymentEl.value, residualValueEl.value,
+            moneyFactorEl.value, leaseTermEl.value, annualMileageEl.value, taxRateEl.value);
+
+        // calculate adj. cap cost
+        myLeaseInfo.calculateAdjCapCost(myLeaseInfo.netCapCost, myLeaseInfo.downPayment);
+        // calculate equiv. interest rate
+        myLeaseInfo.calculateEquivalentInterestRate(myLeaseInfo.moneyFactor);
+        // calculate buyout price
+        myLeaseInfo.calculateBuyoutPrice(myLeaseInfo.msrp, myLeaseInfo.residualValue);
+        // calculate total depreciation
+        myLeaseInfo.calculateTotalDepreciation(myLeaseInfo.adjCapCost, myLeaseInfo.buyoutPrice);
+        // calculate monthly depreciation
+        myLeaseInfo.calculateMonthlyDepreciation(myLeaseInfo.totalDepreciation, myLeaseInfo.leaseTerm);
+        // calculate monthly rent charge
+        myLeaseInfo.calculateMonthlyRentCharge(myLeaseInfo.adjCapCost, myLeaseInfo.buyoutPrice, myLeaseInfo.moneyFactor);
+        // calculate total rent charge
+        myLeaseInfo.calculateTotalRentCharge(myLeaseInfo.monthlyRentCharge, myLeaseInfo.leaseTerm);
+        // calculate monthly mileage price adjustment
+        myLeaseInfo.calculateMonthlyMileageAdjustment(myLeaseInfo.annualMileage);
+        // calculate total mileage price adjustment
+        myLeaseInfo.calculateTotalMileageAdjustment(myLeaseInfo.monthlyMileageAdjustment, myLeaseInfo.leaseTerm);
+        // calculate monthly payment and monthly tax
+        myLeaseInfo.calculateMonthlyPayment(myLeaseInfo.monthlyDepreciation, myLeaseInfo.monthlyRentCharge, myLeaseInfo.monthlyMileageAdjustment, myLeaseInfo.taxRate);
+        // calculate total tax
+        myLeaseInfo.calculateTotalTax(myLeaseInfo.monthlyTax, myLeaseInfo.leaseTerm);
+        // calculate total monthly payments
+        myLeaseInfo.calculateTotalMonthlyPayments(myLeaseInfo.monthlyPayment, myLeaseInfo.leaseTerm);
+        // calculate total lease cost
+        myLeaseInfo.calculateTotalLeaseCost(myLeaseInfo.totalMonthlyPayments, myLeaseInfo.downPayment);
+
+        // populate lease info table
+        paymentInfoCarEl.innerText = myCar.toString();
+        monthlyPaymentTableEl.innerText = `$${myLeaseInfo.monthlyPayment.toFixed(2)}`;
+        monthlyDepreciationTableEl.innerText = `$${myLeaseInfo.monthlyDepreciation.toFixed(2)}`;
+        monthlyRentChargeTableEl.innerText = `$${myLeaseInfo.monthlyRentCharge.toFixed(2)}`;
+        monthlyTaxTableEl.innerText = `$${myLeaseInfo.monthlyTax.toFixed(2)}`;
+        monthlyMileageAdjustmentTableEl.innerText = `$${myLeaseInfo.monthlyMileageAdjustment.toFixed(2)}`;
+        totalDepreciationTableEl.innerText = `$${myLeaseInfo.totalDepreciation.toFixed(2)}`;
+        totalRentChargeTableEl.innerText = `$${myLeaseInfo.totalRentCharge.toFixed(2)}`;
+        totalTaxTableEl.innerText = `$${myLeaseInfo.totalTax.toFixed(2)}`;
+        totalMileageAdjustmentTableEl.innerText = `$${myLeaseInfo.totalMileageAdjustment.toFixed(2)}`;
+        totalMonthlyPaymentsTableEl.innerText = `$${myLeaseInfo.totalMonthlyPayments.toFixed(2)}`;
+        totalLeaseCostTableEl.innerText = `$${myLeaseInfo.totalLeaseCost.toFixed(2)}`;
+        buyoutPriceTableEl.innerText = `$${myLeaseInfo.buyoutPrice.toFixed(2)}`;
+        paymentInfoTable.style.display = "block";
+        paymentInfoTable.scrollIntoView(true);
+
+        currentLease = myLeaseInfo;
+        saveLeaseBtn.style.display = "block";
+        clearInputFieldsBtn.textContent = "Calculate New Lease";
+    }
+});
+
+/**
+ * Handler for "Save Lease" button clicks
+ */
+saveLeaseBtn.addEventListener("click", function() {
+/*
+    saveLeaseBtn.style.background = "#07d885";
+    saveLeaseBtn.textContent = "Lease saved";
+    saveLeaseBtn.style.color = "white";
+    saveLeaseBtn.style.fontWeight = "bold";
+*/
+    mySavedLeases.unshift(currentLease); // change to add new cars to front of array (top of list)?
+    //currentLease = "";
+    localStorage.setItem("mySavedLeases", JSON.stringify(mySavedLeases));
+    render(mySavedLeases);
+
+    if (mySavedLeases.length === 1) {
+        // hide message
+        noSavedLeasesMessage.style.display = "none";
+        // show delete all button
+        deleteAllBtn.style.display = "block";
+    }
+
+    saveLeaseBtn.style.background = "#07d885";
+    saveLeaseBtn.textContent = "Lease saved";
+    saveLeaseBtn.style.color = "white";
+    saveLeaseBtn.style.fontWeight = "bold";
+    saveLeaseBtn.disabled = true;
+
+})
 
 /**
  * Handler for "Clear Calculator" button clicks
@@ -561,42 +620,9 @@ clearWithoutSavingNoBtn.addEventListener("click", function() {
 });
 
 /**
- * Handler for Nav Bar "Calculator" button clicks
- * TODO: scroll to top when clicked
- */
-navBarCalculatorBtn.addEventListener("click", function() {
-    calculatorWrapperEl.style.display = "block";
-    savedLeasesWrapperEl.style.display = "none";
-    navBarCalculatorBtn.style.fontWeight = "bold";
-    navBarCalculatorBtn.style.textDecoration = "underline";
-    navBarSavedLeasesBtn.style.fontWeight = "normal";
-    navBarSavedLeasesBtn.style.textDecoration = "none";
-});
-
-/**
- * Handler for Nav Bar "Saved Leases" button clicks
- * TODO: scroll to top when clicked
- */
-navBarSavedLeasesBtn.addEventListener("click", function() {
-    calculatorWrapperEl.style.display = "none";
-    savedLeasesWrapperEl.style.display = "block";
-    navBarCalculatorBtn.style.fontWeight = "normal";
-    navBarCalculatorBtn.style.textDecoration = "none";
-    navBarSavedLeasesBtn.style.fontWeight = "bold";
-    navBarSavedLeasesBtn.style.textDecoration = "underline"
-    for (let i = 0; i < mySavedLeases.length; i++) {
-        let savedLeaseTableEl = document.getElementById(`saved-lease-table-${i}`);
-        //savedLeaseTableEl.style.display = "none";
-    }
-});
-
-/**
  * Handler for "Delete All" button clicks
  */
 deleteAllBtn.addEventListener("click", function() {
-    //localStorage.clear();
-    //mySavedLeases = [];
-    //render(mySavedLeases);
     deleteAllPopup.style.display = "flex";
     deleteAllPopup.scrollIntoView(true);
 });
@@ -621,26 +647,3 @@ deleteAllYesBtn.addEventListener("click", function() {
 deleteAllNoBtn.addEventListener("click", function() {
     deleteAllPopup.style.display = "none";
 });
-
-/**
- * Sets input fields back to their default styling
- */
-function resetInputFieldStyling(inputFieldsArray) {
-    for (let i = 0; i < inputFieldsArray.length; i++) {
-        inputFieldsArray[i].style.border = "0px solid"
-        inputFieldsArray[i].style.borderColor = "#293241";
-        calculateErrorMessage.style.display = "none";
-    }
-}
-
-/**
- * Handler for clicks on lease information heading
- */
-leaseInfoHeading.addEventListener("click", function() {
-    if (leaseInfoExplained.style.display === "block") {
-        leaseInfoExplained.style.display = "none";
-    }
-    else {
-        leaseInfoExplained.style.display = "block";
-    }
-})

@@ -150,8 +150,19 @@ main {
 
 #lease-info-explained {
     display: none;
+    max-width: 80%;
     text-align: left;
     justify-content: left;
+    font-size: large;
+}
+
+.lease-info-explanations {
+    font-weight: 400;
+}
+
+.info-var-name {
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 #price-info-inputs {
@@ -263,7 +274,7 @@ main {
     margin: 20px auto;
 }
 
-#save-div {
+#save-btn-div {
     margin: 10px auto;
     padding: 12px auto;
     display: flex;
@@ -299,7 +310,7 @@ main {
     margin-right: auto;
 }
 
-.confirmation-popup {
+.popup {
     display: none;
     flex-direction: column;
     justify-content: center;

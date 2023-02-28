@@ -1,8 +1,3 @@
-<!-- add link to another page to view previously calculated payments (saved-leases.html)-->
-<!-- Instead of the additional page, I want to make a nav bar with selections for "Calculator"
-     and "Saved Leases". Each will be tied to a high level div. When clicked, the other div is
-     hidden and the selected "tab/section" is shown-->
-
 <!DOCTYPE html>
 
 <html>
@@ -41,15 +36,15 @@
 
                     <div id="price-info-div">
                         <h3 id="lease-info-heading">Lease Information</h3>
-                        <div class="confirmation-popup" id="lease-info-explained">
-                            <p>MSRP: Manufacturer Suggested Retail Price, also known as the "sticker price" of the vehicle.</p>
-                            <p>Net Capitalized Cost: The final selling price of the vehicle, after any negotiations and other discounts.</p>
-                            <p>Down Payment: Any money that is paid up front at the start of the lease.</p>
-                            <p>Residual Value: The percentage of the car's value remaining at the end of the lease term.</p>
-                            <p>Money Factor: The interest rate charged on the lease. To convert a standard interest rate to a money factor, divide it by 2400.</p>
-                            <p>Lease Term: The number of months the vehicle will be leased for, typically between 24 and 48 months.</p>
-                            <p>Annual Mileage: The total mileage allotment for each year in the lease term.</p>
-                            <p>Tax Rate: The local vehicle sales tax rate.</p>
+                        <div class="popup" id="lease-info-explained">
+                            <p class="lease-info-explanations"><span class="info-var-name">MSRP:</span> Manufacturer Suggested Retail Price, also known as the "sticker price" of the vehicle.</p>
+                            <p class="lease-info-explanations"><span class="info-var-name">Net Capitalized Cost:</span> The final selling price of the vehicle, after any negotiations and other discounts.</p>
+                            <p class="lease-info-explanations"><span class="info-var-name">Down Payment:</span> Any money that is paid up front at the start of the lease.</p>
+                            <p class="lease-info-explanations"><span class="info-var-name">Residual Value:</span> The percentage of the car's value remaining at the end of the lease term.</p>
+                            <p class="lease-info-explanations"><span class="info-var-name">Money Factor:</span> The interest rate charged on the lease. To convert a standard interest rate to a money factor, divide it by 2400.</p>
+                            <p class="lease-info-explanations"><span class="info-var-name">Lease Term:</span> The number of months the vehicle will be leased for, typically between 24 and 48 months.</p>
+                            <p class="lease-info-explanations"><span class="info-var-name">Annual Mileage:</span> The total mileage allotment for each year in the lease term.</p>
+                            <p class="lease-info-explanations"><span class="info-var-name">Tax Rate:</span> The local vehicle sales tax rate.</p>
                         </div>
                         <div id="price-info-inputs">
                             <div class="price-info-inputs-column">
@@ -128,14 +123,14 @@
                         </table>
                     </div>
 
-                    <div id="save-div">
+                    <div id="save-btn-div">
                         <button id="save-lease-btn">Save Lease</button>
                     </div>
 
                     <div id="clear-calculator-div">
                         <button id="clear-input-fields-btn">Clear Calculator</button>
                     </div>
-                    <div class="confirmation-popup" id="clear-without-saving-confirmation-popup">
+                    <div class="popup" id="clear-without-saving-confirmation-popup">
                         <h3>The current lease is not saved.<br> Are you sure you want to continue?</h3>
                         <div id="clear-without-saving-confirmation-btns">
                             <button class="popup-btn" id="clear-without-saving-yes-btn">Yes</button>
@@ -153,7 +148,7 @@
                     <div id="delete-all-btn-div">
                         <button id="delete-all-btn">Delete All</button>
                     </div>
-                    <div class="confirmation-popup" id="delete-all-confirmation-popup">
+                    <div class="popup" id="delete-all-confirmation-popup">
                         <h3>Are you sure you want to delete all saved leases?</h3>
                         <div id="delete-all-confirmation-btns">
                             <button class="popup-btn" id="delete-all-yes-btn">Yes</button>
