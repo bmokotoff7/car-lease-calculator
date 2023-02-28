@@ -537,6 +537,7 @@ calculatePaymentBtn.addEventListener("click", function() {
         totalMonthlyPaymentsTableEl.innerText = `$${myLeaseInfo.totalMonthlyPayments.toFixed(2)}`;
         totalLeaseCostTableEl.innerText = `$${myLeaseInfo.totalLeaseCost.toFixed(2)}`;
         buyoutPriceTableEl.innerText = `$${myLeaseInfo.buyoutPrice.toFixed(2)}`;
+        paymentInfoCarEl.style.display = "block";
         paymentInfoTable.style.display = "block";
         paymentInfoTable.scrollIntoView(true);
 
